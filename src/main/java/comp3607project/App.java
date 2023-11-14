@@ -7,6 +7,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Header;
 import java.io.FileOutputStream;
 /**
  * Hello world!
@@ -19,6 +20,11 @@ public class App
         try {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("HelloWorld.pdf"));
             document.open();
+
+            // Add a class label above the table
+            Paragraph paragraph = new Paragraph();
+            paragraph.add("Class");
+            document.add(paragraph);
 
             // Create a table with 4 columns
             PdfPTable table = new PdfPTable(4);
@@ -60,6 +66,9 @@ public class App
             }
 
             document.add(table);
+
+            Header h1 = new Header("test","one");
+            document.add(h1);
 
             document.close();
             writer.close();
