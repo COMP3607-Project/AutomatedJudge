@@ -16,6 +16,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+
+    <itext.version>8.0.2</itext.version>
   </properties>
 
   <dependencies>
@@ -25,6 +27,39 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>kernel</artifactId>
+        <version>8.0.2</version>
+    </dependency>
+	<!-- always needed -->
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>io</artifactId>
+        <version>8.0.2</version>
+    </dependency>
+	<!-- always needed -->
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>layout</artifactId>
+        <version>8.0.2</version>
+    </dependency>
+
+	<!-- only needed for PDF/A -->
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>pdfa</artifactId>
+        <version>8.0.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>itext-core</artifactId>
+        <version>8.0.2</version>
+        <type>pom</type>
+    </dependency>
+
     <dependency>
         <groupId>com.itextpdf</groupId>
         <artifactId>itextpdf</artifactId>
