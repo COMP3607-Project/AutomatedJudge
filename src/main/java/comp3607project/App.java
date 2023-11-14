@@ -8,6 +8,8 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Header;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Font;
 import java.io.FileOutputStream;
 /**
  * Hello world!
@@ -20,6 +22,27 @@ public class App
         try {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("HelloWorld.pdf"));
             document.open();
+
+            //add image logo at the top of the page
+            try {
+                Image image = Image.getInstance("https://i0.wp.com/www.caribbeanclimate.bz/wp-content/uploads/2018/01/UWI-logo.jpg?ssl=1");
+                image.scaleAbsolute(50f, 50f); // Adjust image size
+                image.setAlignment(Image.ALIGN_CENTER); // Center the image
+                document.add(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Add university name under the logo
+            Font bold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+            Paragraph universityName = new Paragraph("The University of the West Indies, St. Augustine", bold);
+            universityName.setAlignment(Paragraph.ALIGN_CENTER); // Center the text
+            document.add(universityName);
+
+            // Add student ID and assignment number under the university name
+            Paragraph studentInfo = new Paragraph("Student ID: " /*+ studentId*/ + "\nAssignment Number: " /*+ assignmentNumber*/ +"\nFeedback Report", bold);
+            studentInfo.setAlignment(Paragraph.ALIGN_CENTER); 
+            document.add(studentInfo);
 
             // Add a class label above the table
             Paragraph paragraph = new Paragraph();
