@@ -45,5 +45,5 @@ public class ReportHeader {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-    }   
+    }
 }
