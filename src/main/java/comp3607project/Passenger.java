@@ -26,7 +26,7 @@ public class Passenger
     }
     
     //methods
-    public String getpassportNumber(){
+    public String getPassportNumber(){
         return passportNumber;
     }
     
@@ -34,7 +34,7 @@ public class Passenger
         return flightNo;
     }   
     
-    public String getfirstName(){
+    public String getFirstName(){
         return firstName;
     }
     
