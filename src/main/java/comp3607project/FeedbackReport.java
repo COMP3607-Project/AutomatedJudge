@@ -13,9 +13,14 @@ import com.itextpdf.text.BaseColor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class FeedbackReport implements PdfDocument {
     private Document document;
     private Font bold;
+    ArrayList<Feedback> studentFeedback = new ArrayList<Feedback>();
 
     public FeedbackReport() {
         this.document = new Document();
@@ -46,59 +51,83 @@ public class FeedbackReport implements PdfDocument {
             }
     }
 
+    public void addTableHeaders(){
+        // Create a table with 3 columns
+        PdfPTable table = new PdfPTable(3);
+        table.setWidthPercentage(100); // Full Width
+        table.setSpacingBefore(4f); // Space before table
 
-    public void addContent() {
+        // Add Column headers
+        PdfPCell cell;
+
+        cell = new PdfPCell(new Phrase("Test"));
+        cell.setBackgroundColor(new BaseColor(255, 182, 193)); 
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("Mark"));
+        cell.setBackgroundColor(new BaseColor(255, 182, 193)); 
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("Response"));
+        cell.setBackgroundColor(new BaseColor(255, 182, 193)); 
+        table.addCell(cell);
+        
         try {
-            // Add student info
-            Paragraph studentInfo = new Paragraph("Student ID: " /*+ studentId*/ + "\nAssignment Number: " /*+ assignmentNumber*/ +"\nFeedback Report", bold);
-            studentInfo.setAlignment(Paragraph.ALIGN_CENTER); 
+            document.add(table);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addStudentInfo(){
+        // Add student info
+        Paragraph studentInfo = new Paragraph("Student ID: " /*+ studentId*/ + "\nAssignment Number: " /*+ assignmentNumber*/ +"\nFeedback Report", bold);
+        studentInfo.setAlignment(Paragraph.ALIGN_CENTER); 
+        try {
             document.add(studentInfo);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
 
-            // Add class label above the table
-            Paragraph classLabel = new Paragraph("Class");
-            document.add(classLabel);
+    public void addTables() {
+        try {
 
-            // Create a table with 4 columns
-            PdfPTable table = new PdfPTable(4);
-            table.setWidthPercentage(100); // Full Width
-            table.setSpacingBefore(0f); // Space before table
-            table.setSpacingAfter(10f); // Space after table
+            // Create a HashMap to store each class name and its corresponding table
+            HashMap<String, PdfPTable> tables = new HashMap<>();
 
-            // Add Column headers
-            PdfPCell cell;
-            cell = new PdfPCell(new Phrase("Class Name"));
-            cell.setBackgroundColor(new BaseColor(255, 182, 193)); 
-            table.addCell(cell);
+            for (Feedback f : studentFeedback){
+                // Get the class name
+                String className = f.getClassName();
 
-            cell = new PdfPCell(new Phrase("Test"));
-            cell.setBackgroundColor(new BaseColor(255, 182, 193)); 
-            table.addCell(cell);
+                // Check if the class name already exists in the HashMap
+                if (!tables.containsKey(className)) {
+                    // If it doesn't exist, create a new table and add it to the HashMap
+                    PdfPTable table = new PdfPTable(3);
+                    table.setWidthPercentage(100); // Full Width
+                    tables.put(className, table);
+                }
 
-            cell = new PdfPCell(new Phrase("Mark"));
-            cell.setBackgroundColor(new BaseColor(255, 182, 193)); 
-            table.addCell(cell);
+                // Get the table for this class name
+                PdfPTable table = tables.get(className);
 
-            cell = new PdfPCell(new Phrase("Response"));
-            cell.setBackgroundColor(new BaseColor(255, 182, 193)); 
-            table.addCell(cell);
-
-            /*// Add data
-            for (int i = 0; i < marks.size(); i++) {
-                table.addCell("Class Name " + i);
-                table.addCell("Test " + i);
-                table.addCell(marks.get(i).toString());
-                table.addCell(responses.get(i).toString());
-            }*/
-
-            // Add placeholder data
-            for (int i = 0; i < 5; i++) {
-                table.addCell("Class Name " + i);
-                table.addCell("Test " + i);
-                table.addCell("Mark " + i);
-                table.addCell("Response " + i);
+                // Add the data from the Feedback object to the table
+                table.addCell(f.getTest());
+                table.addCell(Integer.toString(f.getMark()));
+                table.addCell(f.getResponse());
             }
 
-            document.add(table);
+            // Add all the tables to the document
+            for (Map.Entry<String, PdfPTable> entry : tables.entrySet()) {
+                // Add a paragraph with the class name before each table
+                Paragraph classNameParagraph = new Paragraph("Class: " + entry.getKey());
+                document.add(classNameParagraph);
+
+                addTableHeaders();
+
+                // Add the table
+                document.add(entry.getValue());
+            }
         } catch (DocumentException e) {
             e.printStackTrace();
         }
@@ -111,11 +140,16 @@ public class FeedbackReport implements PdfDocument {
             document.open();
             addLogo();
             addUniversityName();
-            addContent();
+            addStudentInfo();
+            addTables();
             document.close();
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addFeedback(Feedback feedback) {
+        studentFeedback.add(feedback);
     }
 
 }
