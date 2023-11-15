@@ -3,15 +3,14 @@ package comp3607project;
 import java.util.ArrayList;
 import java.util.Arrays;
 import static org.junit.Assert.*;
-import org.junit.Before;
+import org.junit.*;
 import java.lang.reflect.*;
 import java.time.LocalDateTime;
 
-public class FlightTest {
-    private String response;
-    private int mark;
-    private boolean grade;
+public class FlightTest extends TestTemplate{
     private Flight flight1;
+    private Field[] flightFields = Flight.class.getDeclaredFields();
+
 
     public FlightTest(){
         flight1 = new Flight();
@@ -21,42 +20,83 @@ public class FlightTest {
     public void init(){
         response = "";
         mark = 0;
-        grade = true;
+        grade = true; //determines if student get grade
+        found = false; //determines if field was found aka adheres to naming convention
     }
 
     @Test
     public void testFlightNo(){
-        checkAttribute("flightNo", "private", "String");
+        checkAttribute(flightFields, "flightNo", "private", "String");
 
-        mark = if(grade) ? 1 : 0;
+        if(found)
+            response += "Correct naming convention";
+        else{
+            response += "Incorrect naming convention -> Expected: flightNo";
+            grade = false;
+        }
+
+        mark = grade ? 1 : 0;
         results.add(new Feedback("Flight", "flightNo Attribute", mark, response));
     }
 
-    public void checkAttribute(String fieldName, String mod, String type){
-        Field[] flightFields = Flight.class.getDeclaredFields();
-        for(Field f: flightFields){
-            if(f.getName().equals(fieldName)){
-                if(assertEquals(0, f.toGenericString().indexOf(mod)))
-                    response += "Correct access modifier.\n";
-                else{
-                    response += "Incorrect access modifier.\n";
-                    grade = false;
-                }
+    @Test
+    public void testDestination(){
+        checkAttribute(flightFields, "destination", "private", "String");
 
-                if(assertTrue(f.toGenericString().contains(type)))
-                    response += "Correct data type.\n";
-                else{
-                    response += "Incorrect data type.\n";
-                    grade = false;
-                }
-
-                if(assertNull(f))
-                    response += "Has only been declared.\n";
-                else{
-                    response += "Has been initialized.\n";
-                    grade = false;
-                }
-            }
-
+        if(found)
+            response += "Correct naming convention";
+        else{
+            response += "Incorrect naming convention -> Expected: destination";
+            grade = false;
         }
+
+        mark = grade ? 1 : 0;
+        results.add(new Feedback("Flight", "destination Attribute", mark, response));
     }
+
+    @Test
+    public void testOrigin(){
+        checkAttribute(flightFields, "origin", "private", "String");
+
+        if(found)
+            response += "Correct naming convention";
+        else{
+            response += "Incorrect naming convention -> Expected: origin";
+            grade = false;
+        }
+
+        mark = grade ? 1 : 0;
+        results.add(new Feedback("Flight", "origin Attribute", mark, response));
+    }
+
+    @Test
+    public void testFlightDate(){
+        checkAttribute(flightFields, "flightDate", "private", "LocalDateTime");
+
+        if(found)
+            response += "Correct naming convention";
+        else{
+            response += "Incorrect naming convention -> Expected: flightDate";
+            grade = false;
+        }
+
+        mark = grade ? 1 : 0;
+        results.add(new Feedback("Flight", "flightDate Attribute", mark, response));
+    }
+
+    @Test
+    public void testManifest(){
+        checkAttribute(flightFields, "manifest", "private", "LuggageManifest");
+
+        if(found)
+            response += "Correct naming convention";
+        else{
+            response += "Incorrect naming convention -> Expected: manifest";
+            grade = false;
+        }
+
+        mark = grade ? 1 : 0;
+        results.add(new Feedback("Flight", "manifest Attribute", mark, response));
+    }
+
+}
