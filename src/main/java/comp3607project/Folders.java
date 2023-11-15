@@ -1,23 +1,48 @@
 package comp3607project;
-
+ 
 import java.io.File;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
  
 public class Folders implements Component{
-    private File dirPath;
-    //private boolean empty=true;
+    protected File dirPath;
+    protected ZipFile zipFile;
 
-    public Folders(String directory){ 
+    public Folders(String directory) throws IOException{ 
         setDirPath(directory); //create File object for directory
-        open();
+        unzip(directory);
     }
 
-    public void open() {
-        unzip();
-        //public boolean isEmpty() {};?
+    //method to unzip folder
+    public void unzip(String filePath) throws IOException { 
+        //steps to process zipped folder
+        open(filePath);
+        processContents();
+        close();
     }
 
-    public void unzip() {
-        //method to unzip folder
+   @Override
+    public void open(String filePath) throws IOException {
+        zipFile = new ZipFile(filePath);
+    }
+    
+    //iterator vs template pattern
+    public void processContents() throws IOException{
+        Enumeration<? extends ZipEntry> entries = zipFile.entries();
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+            processFile(entry);
+        }
+    }
+
+    public void processFile(ZipEntry entry) throws IOException {
+        //child classes will override
+    }
+
+    public void close() throws IOException {
+        zipFile.close();
     }
 
     public File getDirPath() {
