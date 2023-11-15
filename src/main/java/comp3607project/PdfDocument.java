@@ -1,8 +1,8 @@
 package comp3607project;
 
 public interface PdfDocument {
-    void addLogo();
-    void addUniversityName();
-    void addStudentInfo();
-    void generateDocument();
+    public void addLogo();
+    public void addUniversityName();
+    public void addContent();
+    public void generateDocument();
 }
