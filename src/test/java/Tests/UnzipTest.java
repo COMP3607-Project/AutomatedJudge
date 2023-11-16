@@ -11,7 +11,7 @@ import comp3607project.UnzipUtility;
 public class UnzipTest {
     @Test
     public void testUnzipFile() throws IOException {
-        // Paths must have '//' instead of '/'
+        // Paths must have '\\' instead of '\'
         String zipFilePath = "path/file.zip"; 
         String destDirectory = "path/to/destination/folder";
         UnzipUtility unzipper = new UnzipUtility();
