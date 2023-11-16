@@ -1,5 +1,6 @@
 package comp3607project;
 
+import org.junit.*;
 import static org.junit.Assert.*;
 import java.lang.reflect.*;
 import java.util.ArrayList;
@@ -24,11 +25,11 @@ public class LuggageManifestTest extends TestTemplate{
     public void testSlips(){
         checkAttribute(" slips ", "private", " ArrayList<LuggageSlip> ");
 
-        if(found)
+        if(found){
             response += "Correct naming convention";
             if(assertNotNull(luggageManifest1))
                 
-        else{
+        }else{
             response += "Incorrect naming convention -> Expected: slips";
             grade = false;
         }

@@ -13,7 +13,7 @@ public class FlightTest extends TestTemplate{
 
 
     public FlightTest(){
-        flight1 = new Flight();
+        flight1 = new Flight("POS123", "JFK", "POS", );
     }
 
     @Before
