@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class Passenger
 {
-    //instance variables
-    private String passportNumber = "xyz";
+    //instance variables 
+    private String passportNumber;
     private String flightNo;
     private String firstName;
     private String lastName;
