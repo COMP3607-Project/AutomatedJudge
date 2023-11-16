@@ -27,7 +27,6 @@ public class PassengerTest {
     private Passenger passenger;
     private String fieldName;
     private String expectedField;
-    // ArrayList<String> expectedNames;
     
     @Before
     public void initPassengerTest() {
@@ -45,16 +44,16 @@ public class PassengerTest {
     public void testPassportNumberField(){
         
         fieldName = "passportNumber";
+        modifier = "private";
+        typeName = String.class.getName();
+        
+        expectedField = modifier + " String " + fieldName;
 
         field = getField(fieldName);
 
         if(field != null){
             
-            typeName = String.class.getName();
-            modifier = "private";
-            expectedField = modifier + " String " + fieldName;
-
-            /*  Code to check constructor goes here. COnstructors force initialisation so only variables that are not in the constructor should be checked
+            /*  Code to check constructor goes here. Constructors force initialisation so only variables that are not in the constructor should be checked
              *  in this way ~ Z is working on this;
              * 
              * checkDeclaredOnly();
@@ -66,11 +65,48 @@ public class PassengerTest {
         else
             response += "Incorrect. Expected field: " + expectedField + "\n";
 
+        System.out.println(response);
+
         assertTrue(passed);
 
         total += 1;
 
     }
+
+    @Test
+    public void testPassportNumberField(){
+        
+        fieldName = "passportNumber";
+        modifier = "private";
+        typeName = String.class.getName();
+        
+        expectedField = modifier + " String " + fieldName;
+
+        field = getField(fieldName);
+
+        if(field != null){
+            
+            /*  Code to check constructor goes here. Constructors force initialisation so only variables that are not in the constructor should be checked
+             *  in this way ~ Z is working on this;
+             * 
+             * checkDeclaredOnly();
+             */
+
+            checkExpectedField(fieldName, expectedField);
+
+        }
+        else
+            response += "Incorrect. Expected field: " + expectedField + "\n";
+
+        System.out.println(response);
+
+        assertTrue(passed);
+
+        total += 1;
+
+    }
+
+    
 
     private Field getField(String fieldName){
         
@@ -117,10 +153,10 @@ public class PassengerTest {
 
         if(passed){
             passed = isExpectedField.contains("Passenger." + fieldName);
-            response += "Correct field\n";
+            response += "Correct field.\n";
         }
         else
-            response += "Incorrect. Expected field: " + expectedField + "\n";
+            response += "Incorrect. Expected field: " + expectedField + ".\n";
     }
 }
     
