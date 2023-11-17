@@ -6,7 +6,7 @@ import java.util.Random;
 public class Passenger
 {
     //instance variables 
-    private String passportNumer;
+    private String passportNumber;
     private String flightNo;
     private String firstName;
     private String lastName;
@@ -14,10 +14,10 @@ public class Passenger
     private char cabinClass;
     
     //constructors
-    public Passenger(String passportNumer, String firstName, String lastName,
+    public Passenger(String passportNumber, String firstName, String lastName,
     String flightNo){
         
-        this.passportNumer = passportNumer;
+        this.passportNumber = passportNumber;
         this.flightNo = flightNo;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,8 +26,8 @@ public class Passenger
     }
     
     //methods
-    public String getpassportNumer(){
-        return passportNumer;
+    public String getPassportNumber(){
+        return passportNumber;
     }
     
     public String getFlightNo(){
@@ -62,7 +62,7 @@ public class Passenger
     }
     
     public String toString(){
-        String passengerInfo = "PP NO. " + passportNumer + " NAME: " + firstName.charAt(0)  
+        String passengerInfo = "PP NO. " + passportNumber + " NAME: " + firstName.charAt(0)  
                              + "." + lastName + " NUMLUGGAGE: " + numLuggage + " CLASS: " + cabinClass;
         return passengerInfo;
     }
