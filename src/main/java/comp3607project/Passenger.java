@@ -23,6 +23,7 @@ public class Passenger
         this.lastName = lastName;
         assignRandomPassengerLuggage();
         assignRandomCabinClass();
+
     }
     
     //methods
@@ -63,7 +64,7 @@ public class Passenger
     
     public String toString(){
         String passengerInfo = "PP NO. " + passportNumber + " NAME: " + firstName.charAt(0)  
-                             + "." + lastName + " NUMLUGGAGE: " + numLuggage + " CLASS: " + cabinClass;
+                             + "." + lastName + " NUMLUGGAGE:  " + numLuggage + " CLASS: " + cabinClass;
         return passengerInfo;
     }
 
