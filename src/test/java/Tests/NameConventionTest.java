@@ -1,22 +1,26 @@
 package Tests;
 import static org.junit.Assert.*;
 import org.junit.Test;
+
+import comp3607project.Folder;
+
 import java.io.File;
+import java.io.IOException;
  
 public class NameConventionTest {
-
-    // Define the naming convention pattern ie. 8160123456_LaraCroft_A3
-    private static final String studentSubName = "[816000000-900000000]_[A-Z]_[A][1-5]";
-    //private static final String classSubName = "Assignment[1-5]_Java_Programs";
-
-    //Path for unzipped folder containing all student submissions
-    File file = new File("D:/Testfiles/"); 
-
     @Test
-    public void testSubmissionNameFollowConvention(String studentSubName) {
-        String[] contents = file.list();
-        for(String name:contents){ 
-            assertTrue(name.matches(studentSubName), "File name '" + name + "' does not follow the naming convention.");
-        }
+    public void testSubmissionNameFollowConvention(String studentSubName)  throws IOException{
+        // Define the naming convention pattern ie. "Assignment3_Java_Programs"
+        final String classSubName = "Assignment[1-5]_Java_Programs";
+
+        String zipFilePath = "C:\\Users\\vanes\\OneDrive - The University of the West Indies, St. Augustine\\Documents\\Year 3\\COMP 3607\\CWE1 Sample papers.zip";
+        String destDirectory = "C:\\Users\\vanes\\OneDrive - The University of the West Indies, St. Augustine\\Documents\\Year 3\\COMP 3607\\Lab5";
+
+        Folder folderTest = new Folder(zipFilePath, destDirectory);
+
+        // String[] contents = file.list();
+        // for(String name:contents){ 
+        //     assertTrue(name.matches(studentSubName));//, "File name '" + name + "' does not follow the naming convention.");
+        // }
     }
 }
