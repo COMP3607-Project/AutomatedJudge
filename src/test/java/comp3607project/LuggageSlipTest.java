@@ -33,7 +33,9 @@ public class LuggageSlipTest {
         passed = false;
         field = null;
         testClass = LuggageSlip.class;
-        luggageSlip = new LuggageSlip(new Passenger ("jfk","jfk","jfk","jfk"), new Flight ("jfk","jfk","jfk",null));
+        Passenger passenger = new Passenger("jfk","jfk","jfk","jfk");
+        Flight flight = new Flight("jfk","jfk","jfk", null);
+        LuggageSlip luggageSlip = new LuggageSlip(passenger, flight);
 
     }
 

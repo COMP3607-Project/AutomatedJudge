@@ -24,6 +24,10 @@ public class LuggageManifestTest extends TestTemplate{
 
     @Test
     public void testSlips(){
+
+        for(Field f: lmFields)
+            System.out.println(f.toString());
+        
         checkAttribute(luggageManifest1, lmFields, " slips ", "private", "ArrayList<LuggageSlip>");
 
         if(found){

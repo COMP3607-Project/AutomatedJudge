@@ -122,6 +122,7 @@ public class PassengerTest {
 
     @Test
     public void testConstrctor(){
+
         Constructor<?>[] constructors = testClass.getConstructors();
 
         String expectedConstructor = "public " + testClass.getName() + "("+ String.class.getName() + "," + String.class.getName()
@@ -143,11 +144,113 @@ public class PassengerTest {
 
         if(!expectedConstructor.equals(constructors[0].toGenericString()))
             response += "Expected Constructor: public Passenger(String passportNumber, String firstName, String lastName, String flightNo)\n";
-        
+        else
+            response += "Correct Constructor";
+
+        checkRandom("numLuggage");
+
+        if(passed)
+            total += 2;
+
+        checkRandom("cabinClass");
+
+        if(passed)
+            total += 1;
+
         assertEquals(expectedConstructor, constructors[0].toGenericString());
         assertTrue(passed);
 
         total += 2;
+
+    }
+
+    @Test
+    public void assignRandomCabinClassTest() throws IllegalArgumentException, IllegalAccessException{
+        
+        boolean passedF = false;
+        boolean passedB = false;
+        boolean passedP = false;
+        boolean passedE = false;
+
+        field = getField("cabinClass");
+
+        field.setAccessible(true);
+
+        int i = 0;
+
+        while (passedF == false & passedB == false & passedP == false & passedE == false){
+
+            Passenger test = new Passenger("checkSet","checkSet","checkSet","checkSet");
+
+            char value = (char) field.get(test);
+
+            if(value == 'F')
+                passedF = true;
+
+            if(value == 'B')
+                passedB = true;
+
+            if(value == 'P')
+                passedP = true;
+
+            if(value == 'E')
+                passedE = true;
+
+            if(i == 10)
+                break;
+
+            i++;
+
+        }
+
+        if(passedF == false)
+            response += "cabinClass value 'F' does not exist\n";
+
+        if(passedB == false)
+            response += "cabinClass value 'B' does not exist\n";
+
+        if(passedP == false)
+            response += "cabinClass value 'P' does not exist\n";
+
+        if(passedE == false)
+            response += "cabinClass value 'E' does not exist\n";
+  
+    }
+
+    private void checkRandom(String fieldName){
+
+        ArrayList<Passenger> passengers = new ArrayList<>();
+        passengers.add(new Passenger("checkSet","checkSet","checkSet","checkSet"));
+        passengers.add(new Passenger("checkSet","checkSet","checkSet","checkSet"));
+        passengers.add(new Passenger("checkSet","checkSet","checkSet","checkSet"));
+        passengers.add(new Passenger("checkSet","checkSet","checkSet","checkSet"));
+        passengers.add(new Passenger("checkSet","checkSet","checkSet","checkSet"));
+
+        passed = false;
+
+        field = getField("numLuggage");
+        field.setAccessible(true);
+        
+        for (int i = 0; i< passengers.size() - 1; i++){
+            Passenger p = passengers.get(i);
+            Passenger p1 = passengers.get(i+1);
+
+            try {
+                Object value1 = field.get(p);
+                Object value2 = field.get(p1);
+
+                if(value1 != value2)
+                    passed = true;
+
+            } catch (IllegalArgumentException e) {
+
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+
+                e.printStackTrace();
+            }
+        }
+
     }
     
     private void runFieldTest(String fName, String mod,String typeJ,String typeN){
@@ -206,7 +309,6 @@ public class PassengerTest {
         if (value != null){
             response += "Variable should ONLY be declared\n";
             declaredOnly = false;
-            
         }
 
         if(declaredOnly == false)
@@ -225,15 +327,17 @@ public class PassengerTest {
         }
 
         if (value == null){
-            response += fieldName + " variable is not set.\n";
+            response += fieldName + " is not set.\n";
             passed = false;
             return;
         }
 
         if (value != expectedValue){
-            response += fieldName + " variable is not set to value from constructor.\n";
+            response += fieldName + " is not set to value from constructor.\n";
             passed = false;
         }
+
+        response += fieldName + " is set correctly.\n";
     }
 
     private void checkExpectedField(String fieldName, String expectedField){
@@ -254,3 +358,4 @@ public class PassengerTest {
 }
     
 
+ 
