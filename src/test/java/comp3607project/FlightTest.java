@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 import java.lang.reflect.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class FlightTest extends TestTemplate{
     private Flight flight1;
@@ -16,84 +17,53 @@ public class FlightTest extends TestTemplate{
 
     @Before
     public void init(){
-        response = "";
         mark = 0;
-        grade = true; //determines if student get grade
-        found = false; //determines if field was found aka adheres to naming convention
+        response = "";
+        declaredOnly = false;
+        passed = false;
+        field = null;
+        testClass = Flight.class;
     }
 
     @Test
     public void testFlightNo(){
-        checkAttribute(flight1, flightFields, "flightNo", "private", " java.lang.String ");
+        runFieldTest(testClass, "flightNo", "private", String.class.getName(), "String");
 
-        if(found)
-            response += "Correct naming convention";
-        else{
-            response += "Incorrect naming convention -> Expected: flightNo";
-            grade = false;
-        }
+        assertTrue(passed);    
 
-        mark = grade ? 1 : 0;
+        mark = passed ? 1 : 0;
         results.add(new Feedback("Flight", "flightNo Attribute", mark, response));
     }
 
     @Test
     public void testDestination(){
-        checkAttribute(flight1, flightFields, "destination", "private", " java.lang.String ");
-
-        if(found)
-            response += "Correct naming convention";
-        else{
-            response += "Incorrect naming convention -> Expected: destination";
-            grade = false;
-        }
-
-        mark = grade ? 1 : 0;
+        runFieldTest(testClass, "destination", "private", String.class.getName(), "String");
+        assertTrue(passed); 
+        mark = passed ? 1 : 0;
         results.add(new Feedback("Flight", "destination Attribute", mark, response));
     }
 
     @Test
     public void testOrigin(){
-        checkAttribute(flight1, flightFields, "origin", "private", " java.lang.String ");
-
-        if(found)
-            response += "Correct naming convention";
-        else{
-            response += "Incorrect naming convention -> Expected: origin";
-            grade = false;
-        }
-
-        mark = grade ? 1 : 0;
+        runFieldTest(testClass, "origin", "private", String.class.getName(), "String");
+        assertTrue(passed); 
+        mark = passed ? 1 : 0;
         results.add(new Feedback("Flight", "origin Attribute", mark, response));
     }
 
     @Test
     public void testFlightDate(){
-        checkAttribute(flight1, flightFields, " flightDate ", "private", " java.time.LocalDateTime ");
-
-        if(found)
-            response += "Correct naming convention";
-        else{
-            response += "Incorrect naming convention -> Expected: flightDate";
-            grade = false;
-        }
-
-        mark = grade ? 1 : 0;
+        runFieldTest(testClass, "flightDate", "private", LocalDateTime.class.getName(), "LocalDateTime");
+        assertTrue(passed); 
+        mark = passed ? 1 : 0;
         results.add(new Feedback("Flight", "flightDate Attribute", mark, response));
     }
 
     @Test
     public void testManifest(){
-        checkAttribute(flight1, flightFields, " manifest ", "private", "LuggageManifest");
-
-        if(found)
-            response += "Correct naming convention";
-        else{
-            response += "Incorrect naming convention -> Expected: manifest";
-            grade = false;
-        }
-
-        mark = grade ? 1 : 0;
+        runFieldTest(testClass, "manifest", "private", LuggageManifest.class.getName(), "LuggageManifest");
+        assertTrue(passed); 
+        mark = passed ? 1 : 0;
         results.add(new Feedback("Flight", "manifest Attribute", mark, response));
     }
 
@@ -108,6 +78,7 @@ public class FlightTest extends TestTemplate{
             response += "Correct initialization of attributes";
             mark = 2;
         }catch (AssertionError e){
+
             response += "Incorrect initialization of attributes";
             mark = 0;
         }finally{
@@ -164,36 +135,39 @@ public class FlightTest extends TestTemplate{
 
     @Test 
     public void testGetAllowedLuggage(){
+        Method allowedLuggage;
         try{
-            Method allowedLuggage = Flight.class.getDeclaredMethod("getAllowedLuggage", char.class);
+            allowedLuggage = Flight.class.getDeclaredMethod("getAllowedLuggage", char.class);
+        }catch(NoSuchMethodException e){
+            passed = false;
+        }
+
+        if(passed){
+            passed = false;
             assertTrue(allowedLuggage.toGenericString().contains(" class "));
             assertEquals(3, Flight.getAllowedLuggage('F'));
             assertEquals(2, Flight.getAllowedLuggage('B'));
             assertEquals(1, Flight.getAllowedLuggage('P'));
             assertEquals(0, Flight.getAllowedLuggage('E'));
-            mark = 2;
-            response += "Correct assignment of luggage pieces";
-
-        }catch (AssertionError | NoSuchMethodException | SecurityException e){
-            mark = 0;
-            response += "Incorrect assignment of luggage pieces";
-            
-        }finally{
-            results.add(new Feedback("Flight", "getAllowedLuggage method", mark, response));
         }
+        
+        mark = passed ? 2: 0;
+        response = passed ? "Correct assignment of luggage pieces": "Incorrect assignment of luggage pieces";
+        results.add(new Feedback("Flight", "getAllowedLuggage method", mark, response));
     }
 
     @Test 
     public void testToString(){
-        try{
-            assertEquals("POS123 DESTINATION: JFK ORIGIN: POS 2023-01-23T10:00", flight1.toString());
+        assertEquals("POS123 DESTINATION: JFK ORIGIN: POS 2023-01-23T10:00", flight1.toString().strip());
+        passed = true;
+        
+        if (passed){
             response += "Correct format";
             mark = 1;
-        }catch (AssertionError e){
+        }else{
             response += "Incorrect format";
             mark = 0;
-        }finally{
-            results.add(new Feedback("Flight", "toString method", mark, response));
         }
+        results.add(new Feedback("Flight", "toString method", mark, response));
     }
 }

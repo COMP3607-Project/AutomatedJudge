@@ -16,28 +16,22 @@ public class LuggageManifestTest extends TestTemplate{
 
     @Before
     public void init(){
-        response = "";
         mark = 0;
-        grade = true; //determines if student get grade
-        found = false; //determines if field was found aka adheres to naming convention
+        response = "";
+        declaredOnly = false;
+        passed = false;
+        field = null;
+        testClass = LuggageManifest.class;
     }
 
     @Test
     public void testSlips(){
 
-        for(Field f: lmFields)
-            System.out.println(f.toString());
-        
-        checkAttribute(luggageManifest1, lmFields, " slips ", "private", "ArrayList<LuggageSlip>");
+        runFieldTest(testClass, "slips", "private", ArrayList.class.getName(), "ArrayList<LuggageSlip>");
 
-        if(found){
-            response += "Correct naming convention";                
-        }else{
-            response += "Incorrect naming convention -> Expected: slips";
-            grade = false;
-        }
+        assertTrue(passed);        
 
-        mark = grade ? 2 : 0;
+        mark = passed ? 2 : 0;
         results.add(new Feedback("LuggageManifest", "slips Attribute", mark, response));
     }
 
@@ -148,25 +142,29 @@ public class LuggageManifestTest extends TestTemplate{
         Flight f = new Flight("POS123", "JFK", "POS", LocalDateTime.of(2023, 1, 23, 10, 00, 00));
         luggageManifest1.addLuggage(p, f);
         String details = "LUGGAGE MANIFEST:";
-        
  
         if(!luggageManifest1.getSlips().isEmpty()){
             for(Object obj: luggageManifest1.getSlips()){
                 LuggageSlip l = (LuggageSlip) obj;
-                details += "\n" + l.toString();
+                details += "\n" + l.toString() + "hello";
             }
         } else 
-            details += "\nNo luggage boarded.";
+            details += "\nNo luggage boarded///.";
 
-        try{
-            assertEquals(luggageManifest1.toString(), details);
-            response += "Correct format";
-            mark = 2;
-        }catch (AssertionError e){
-            response += "Incorrect format";
-            mark = 0;
-        }finally{
-            results.add(new Feedback("LuggageManifest", "toString method", mark, response));
+        if(passed){
+            passed = isExpectedField.contains(testClass.getName() + "." + fieldName);
+            response += "Correct field.\n";
         }
+        else
+            response += "Incorrect. Expected field: " + expectedField + ".\n";
+        
+        assertEquals(luggageManifest1.toString(), details);
+        response += "Correct format";
+        mark = 2;
+        
+            System.out.println(details);
+            System.out.println(luggageManifest1.toString());
+            results.add(new Feedback("LuggageManifest", "toString method", mark, response));
+        
     }
 }
