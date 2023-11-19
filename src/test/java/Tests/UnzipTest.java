@@ -28,6 +28,6 @@ public class UnzipTest {
         // Ensures folder is not empty 
         File[] folderContents = unzippedFolder.listFiles();
         assertNotNull(folderContents);
-        assertTrue(folderContents.length >0);
+        assertTrue(folderContents.length > 0);
     }
 }
