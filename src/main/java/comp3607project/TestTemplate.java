@@ -87,7 +87,6 @@ public abstract class TestTemplate extends Exception{
     }
 
     protected void checkExpectedField(String fieldName, String expectedField){
-
         String isExpectedField = field.toString();
 
         System.out.println(isExpectedField);
