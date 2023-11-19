@@ -27,8 +27,6 @@ public class ReportHeaderTest {
     @Test
     public void testAddHeader() {
         reportHeader.addHeader(document);
-
-        // Verify that the add method was called 3 times: once for the logo, once for the university name, and once for the student info
         try {
             verify(document, times(3)).add(any());
         } catch (DocumentException e) {

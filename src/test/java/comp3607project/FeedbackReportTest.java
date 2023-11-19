@@ -23,8 +23,6 @@ public class FeedbackReportTest {
     @Test
     public void testGenerateDocument() {
         feedbackReport.generateDocument();
-
-        // Verify that the methods were called the correct number of times
         try {
             verify(feedbackReport, times(1)).generateDocument();
         } catch (Exception e) {

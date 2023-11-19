@@ -15,17 +15,13 @@ import java.util.HashMap;
 
 public class ReportContent {
 
-    private ArrayList<Feedback> studentFeedback;
+    private static ArrayList<Feedback> studentFeedback = new ArrayList<>();
 
-    public ReportContent() {
-        this.studentFeedback = new ArrayList<>();
-    }
-
-    public void addFeedback(Feedback f) {
+    public static void addFeedback(Feedback f) {
         studentFeedback.add(f);
     }
 
-    public ArrayList<Feedback> getStudentFeedback() {
+    public static ArrayList<Feedback> getStudentFeedback() {
         return studentFeedback;
     }
 
@@ -59,23 +55,20 @@ public class ReportContent {
 
     public void addTables(Document document) {
         try {
-            // Create a HashMap to store each class name and its corresponding table
             HashMap<String, PdfPTable> tables = new HashMap<>();
 
             for (Feedback f : studentFeedback){
 
-                // Get the class name
                 String className = f.getClassName();
 
                 // Check if the class name already exists in the HashMap
                 if (!tables.containsKey(className)) {
                     // If it doesn't exist, create a new table and add it to the HashMap
                     PdfPTable table = new PdfPTable(3);
-                    table.setWidthPercentage(100); // Full Width
+                    table.setWidthPercentage(100);
                     tables.put(className, table);
                 }
 
-                // Get the table for this class name
                 PdfPTable table = tables.get(className);
 
                 // Add the data from the Feedback object to the table
@@ -84,17 +77,18 @@ public class ReportContent {
                 table.addCell(f.getResponse());
             }
 
-            // Add all the tables to the document
+            // adding all the tables to the document
             for (Map.Entry<String, PdfPTable> entry : tables.entrySet()) {
-                // Add a paragraph with the class name before each table
+                // adding label for each table
                 Paragraph classNameParagraph = new Paragraph("Class: " + entry.getKey());
                 document.add(classNameParagraph);
 
                 addTableHeaders(document);
 
-                // Add the table
                 document.add(entry.getValue());
             }
+
+            studentFeedback.clear();
         } catch (DocumentException e) {
             e.printStackTrace();
         }
