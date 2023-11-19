@@ -2,8 +2,6 @@ package comp3607project;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

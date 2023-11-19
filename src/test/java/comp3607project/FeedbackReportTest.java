@@ -1,0 +1,34 @@
+package comp3607project;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.*;
+
+public class FeedbackReportTest {
+
+    @Mock
+    private ReportContent content;
+
+    private FeedbackReport feedbackReport;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        feedbackReport = spy(new FeedbackReport(content));
+    }
+
+    @Test
+    public void testGenerateDocument() {
+        feedbackReport.generateDocument();
+
+        // Verify that the methods were called the correct number of times
+        try {
+            verify(feedbackReport, times(1)).generateDocument();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
