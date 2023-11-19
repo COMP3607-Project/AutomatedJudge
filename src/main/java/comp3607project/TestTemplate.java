@@ -21,6 +21,8 @@ public abstract class TestTemplate extends Exception{
     protected String expectedField;
     protected Class<?> testClass;
 
+    protected static int cleanCodeMark = 5;
+
     //temporary arraylist for storing feedback. should be in the class that generates the pdf
     protected ArrayList<Feedback> results = new ArrayList<Feedback>();
 
@@ -47,8 +49,10 @@ public abstract class TestTemplate extends Exception{
             checkExpectedField(fieldName, expectedField);
 
         }
-        else
+        else{
             response += "Incorrect. Expected field: " + expectedField + "\n";
+            cleanCodeMark--;
+        }
 
         System.out.println(response);
     }
