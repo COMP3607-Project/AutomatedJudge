@@ -25,6 +25,10 @@ public class ReportContent {
         studentFeedback.add(f);
     }
 
+    public ArrayList<Feedback> getStudentFeedback() {
+        return studentFeedback;
+    }
+
     public void addTableHeaders(Document document){
         // Create a table with 3 columns
         PdfPTable table = new PdfPTable(3);
