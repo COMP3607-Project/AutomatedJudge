@@ -1,8 +1,7 @@
-package Tests;
+package comp3607project;
+
 import static org.junit.Assert.*;
 import org.junit.Test;
-
-import comp3607project.Folder;
 
 import java.io.File;
 import java.io.IOException;

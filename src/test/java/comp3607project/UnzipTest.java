@@ -1,12 +1,11 @@
-package Tests;
+package comp3607project;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-
-import comp3607project.UnzipUtility;
        
 public class UnzipTest {
     @Test
