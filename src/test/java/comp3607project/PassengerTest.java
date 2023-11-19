@@ -12,6 +12,12 @@ import org.junit.Test;
 
 public class PassengerTest extends TestTemplate{
     
+    public PassengerTest(){
+        passenger = new Passenger("checkSet","checkSet","checkSet","checkSet");
+        testClass = Passenger.class;
+        className = "Passenger";
+    }
+    
     @Before
     public void initPassengerTest() {
         
@@ -20,8 +26,6 @@ public class PassengerTest extends TestTemplate{
         declaredOnly = false;
         passed = false;
         field = null;
-        testClass = Passenger.class;
-        passenger = new Passenger("checkSet","checkSet","checkSet","checkSet");
 
     }
 
@@ -29,13 +33,16 @@ public class PassengerTest extends TestTemplate{
     public void testPassportNumberField(){
 
         runFieldTest(testClass, "passportNumber", "private", String.class.getName(), "String");
+        
+        if(passed)
+            mark += 1;
 
+        results.add(new Feedback(className,"passportNumber Field", mark, response));
+            
         assertTrue(passed);
 
-        mark += 1;
-                System.out.println(mark);
 
-
+        
     }
 
     @Test
@@ -43,11 +50,12 @@ public class PassengerTest extends TestTemplate{
         
         runFieldTest(testClass, "flightNo", "private", String.class.getName(), "String");
 
+        if(passed)
+            mark += 1;
+        
+        results.add(new Feedback(className,"flightNo Field", mark, response));
+        
         assertTrue(passed);
-
-        mark += 1;
-                System.out.println(mark);
-
 
     }
 
@@ -56,10 +64,13 @@ public class PassengerTest extends TestTemplate{
         
         runFieldTest(testClass, "firstName", "private", String.class.getName(), "String");
 
+        if(passed)
+            mark += 1;
+        
+        results.add(new Feedback(className,"firstName Field", mark, response));
+
         assertTrue(passed);
 
-        mark += 1;
-        System.out.println(mark);
 
     }
 
@@ -68,10 +79,12 @@ public class PassengerTest extends TestTemplate{
         
         runFieldTest(testClass,"lastName", "private", String.class.getName(), "String");
 
-        assertTrue(passed);
+        if(passed)
+            mark += 1;
+        
+        results.add(new Feedback(className,"lastName Field", mark, response));
 
-        mark += 1;
-                System.out.println(mark);
+        assertTrue(passed);
 
     }
 
@@ -80,11 +93,12 @@ public class PassengerTest extends TestTemplate{
         
         runFieldTest(testClass,"numLuggage", "private", "int", "int");
 
+        if(passed)
+            mark += 1;
+         
+        results.add(new Feedback(className,"numLuggage Field", mark, response));
+        
         assertTrue(passed);
-
-        mark += 1;
-                System.out.println(mark);
-
 
     }
 
@@ -93,10 +107,15 @@ public class PassengerTest extends TestTemplate{
         
         runFieldTest(testClass,"cabinClass", "private", "char", "char");
 
+        if(passed)
+            mark += 1;
+         
+        results.add(new Feedback(className,"cabinClass Field", mark, response));
+
         assertTrue(passed);
 
         mark += 1;
-                System.out.println(mark);
+
 
     }
 
@@ -136,11 +155,15 @@ public class PassengerTest extends TestTemplate{
 
         if(passed)
             mark += 1;
+        
+        if(expectedConstructor.equals(constructors[0].toGenericString()))   
+            mark += 2;
+
+        results.add(new Feedback(className,"Constructor", mark, response));
 
         assertEquals(expectedConstructor, constructors[0].toGenericString());
         assertTrue(passed);
 
-        mark += 2;
 
     }
 
@@ -201,6 +224,11 @@ public class PassengerTest extends TestTemplate{
         if(!passedF || !passedB || !passedP || !passedE)
             passed = false;
 
+        if(passed)
+            mark += 2;
+
+        results.add(new Feedback(className,"assignRandomCabinClass Method", mark, response));
+
         assertTrue(passed);
   
     }
@@ -226,13 +254,15 @@ public class PassengerTest extends TestTemplate{
         char classValue = (char)field.get(p);
 
         String expectedToString = "PP NO. " + passportNum + " NAME: " + fName.charAt(0) + "." + lName +" NUMLUGGAGE: " + luggageValue +  " CLASS: " + classValue;
+        String actualToString = (p.toString().replaceAll(" ","")).toLowerCase();
 
+        expectedToString = (expectedToString.replaceAll(" ","")).toLowerCase();
         
-        passed = p.toString().replaceAll(" ", "").contains(expectedToString.replaceAll(" ", ""));     
-        mark = passed ? 1 : 0;
+        passed = actualToString.contains(expectedToString);     
+        mark = passed ? 3 : 0;
         response = passed ? "Correct format": "Incorrect format";
         
-        results.add(new Feedback("Passenger", "toString method", mark, response));
+        results.add(new Feedback("Passenger", "toString Method", mark, response));
 
         assertTrue(passed);
 
@@ -274,7 +304,6 @@ public class PassengerTest extends TestTemplate{
 
     }
 
-    //check to make sure all good
     private void checkMethod(String methodName, String genericReturnType, String normalReturnType, String normalParaTypes, Class<?>... classSum){
 
         Method testMethod = null;
