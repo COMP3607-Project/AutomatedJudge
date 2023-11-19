@@ -1,122 +1,121 @@
 package comp3607project;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Properties;
+
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class PassengerTest {
+public class PassengerTest extends TestTemplate{
     
-    private static int total = 0;
-
-    private String response;
-    boolean passed;
-    boolean declaredOnly;
-    String typeJavaName;
-    String typeName;
-    String modifier;
-    private Field field;
-    Object value;
-    private Passenger passenger;
-    private String fieldName;
-    private String expectedField;
-    private Class<?> testClass;
+    public PassengerTest(){
+        passenger = new Passenger("checkSet","checkSet","checkSet","checkSet");
+        testClass = Passenger.class;
+        className = "Passenger";
+    }
     
     @Before
     public void initPassengerTest() {
         
         response = "";
+        mark = 0;
         declaredOnly = false;
         passed = false;
         field = null;
-        testClass = Passenger.class;
-        passenger = new Passenger("checkSet","checkSet","checkSet","checkSet");
 
     }
 
     @Test
     public void testPassportNumberField(){
 
-        runFieldTest("passportNumber", "private", String.class.getName(), "String");
+        runFieldTest(testClass, "passportNumber", "private", String.class.getName(), "String");
+        
+        if(passed)
+            mark += 1;
 
+        results.add(new Feedback(className,"passportNumber Field", mark, response));
+            
         assertTrue(passed);
 
-        total += 1;
-                System.out.println(total);
 
-
+        
     }
 
     @Test
     public void testFlightNoField(){
         
-        runFieldTest("flightNo", "private", String.class.getName(), "String");
+        runFieldTest(testClass, "flightNo", "private", String.class.getName(), "String");
 
+        if(passed)
+            mark += 1;
+        
+        results.add(new Feedback(className,"flightNo Field", mark, response));
+        
         assertTrue(passed);
-
-        total += 1;
-                System.out.println(total);
-
 
     }
 
     @Test
     public void testfirstNameField(){
         
-        runFieldTest("firstName", "private", String.class.getName(), "String");
+        runFieldTest(testClass, "firstName", "private", String.class.getName(), "String");
+
+        if(passed)
+            mark += 1;
+        
+        results.add(new Feedback(className,"firstName Field", mark, response));
 
         assertTrue(passed);
 
-        total += 1;
-        System.out.println(total);
 
     }
 
     @Test
     public void testlastNameField(){
         
-        runFieldTest("lastName", "private", String.class.getName(), "String");
+        runFieldTest(testClass,"lastName", "private", String.class.getName(), "String");
+
+        if(passed)
+            mark += 1;
+        
+        results.add(new Feedback(className,"lastName Field", mark, response));
 
         assertTrue(passed);
-
-        total += 1;
-                System.out.println(total);
 
     }
 
     @Test
     public void testNumLuggageField(){
         
-        runFieldTest("numLuggage", "private", "int", "int");
+        runFieldTest(testClass,"numLuggage", "private", "int", "int");
 
+        if(passed)
+            mark += 1;
+         
+        results.add(new Feedback(className,"numLuggage Field", mark, response));
+        
         assertTrue(passed);
-
-        total += 1;
-                System.out.println(total);
-
 
     }
 
     @Test
     public void testCabinClassField(){
         
-        runFieldTest("cabinClass", "private", "char", "char");
+        runFieldTest(testClass,"cabinClass", "private", "char", "char");
+
+        if(passed)
+            mark += 1;
+         
+        results.add(new Feedback(className,"cabinClass Field", mark, response));
 
         assertTrue(passed);
 
-        total += 1;
-                System.out.println(total);
+        mark += 1;
+
 
     }
 
@@ -150,35 +149,42 @@ public class PassengerTest {
         checkRandom("numLuggage");
 
         if(passed)
-            total += 2;
+            mark += 2;
 
         checkRandom("cabinClass");
 
         if(passed)
-            total += 1;
+            mark += 1;
+        
+        if(expectedConstructor.equals(constructors[0].toGenericString()))   
+            mark += 2;
+
+        results.add(new Feedback(className,"Constructor", mark, response));
 
         assertEquals(expectedConstructor, constructors[0].toGenericString());
         assertTrue(passed);
 
-        total += 2;
 
     }
 
     @Test
     public void assignRandomCabinClassTest() throws IllegalArgumentException, IllegalAccessException{
+
+        field = getField("cabinClass");
+        field.setAccessible(true);
         
+        passed = false;
+
+        checkMethod("assignRandomCabinClass","void","void",null,(Class<?>[]) null);
+
         boolean passedF = false;
         boolean passedB = false;
         boolean passedP = false;
         boolean passedE = false;
 
-        field = getField("cabinClass");
-
-        field.setAccessible(true);
-
         int i = 0;
 
-        while (passedF == false & passedB == false & passedP == false & passedE == false){
+        while (passedF == false || passedB == false || passedP == false || passedE == false){
 
             Passenger test = new Passenger("checkSet","checkSet","checkSet","checkSet");
 
@@ -196,7 +202,7 @@ public class PassengerTest {
             if(value == 'E')
                 passedE = true;
 
-            if(i == 10)
+            if(i == 20)
                 break;
 
             i++;
@@ -214,7 +220,52 @@ public class PassengerTest {
 
         if(passedE == false)
             response += "cabinClass value 'E' does not exist\n";
+
+        if(!passedF || !passedB || !passedP || !passedE)
+            passed = false;
+
+        if(passed)
+            mark += 2;
+
+        results.add(new Feedback(className,"assignRandomCabinClass Method", mark, response));
+
+        assertTrue(passed);
   
+    }
+
+    @Test 
+    public void testToString() throws IllegalArgumentException, IllegalAccessException{
+
+        String passportNum = "TA890789";
+        String fName = "Joe";
+        String lName = "Bean";
+        String flightNo = "POS123";
+
+        Passenger p = new Passenger(passportNum, fName, lName, flightNo);
+        
+        field = getField("numLuggage");
+        field.setAccessible(true);
+        
+        int luggageValue = (int)field.get(p);
+
+        field = getField("cabinClass");
+        field.setAccessible(true);
+
+        char classValue = (char)field.get(p);
+
+        String expectedToString = "PP NO. " + passportNum + " NAME: " + fName.charAt(0) + "." + lName +" NUMLUGGAGE: " + luggageValue +  " CLASS: " + classValue;
+        String actualToString = (p.toString().replaceAll(" ","")).toLowerCase();
+
+        expectedToString = (expectedToString.replaceAll(" ","")).toLowerCase();
+        
+        passed = actualToString.contains(expectedToString);     
+        mark = passed ? 3 : 0;
+        response = passed ? "Correct format": "Incorrect format";
+        
+        results.add(new Feedback("Passenger", "toString Method", mark, response));
+
+        assertTrue(passed);
+
     }
 
     private void checkRandom(String fieldName){
@@ -252,68 +303,56 @@ public class PassengerTest {
         }
 
     }
-    
-    private void runFieldTest(String fName, String mod,String typeJ,String typeN){
 
-        fieldName = fName;
-        modifier = mod;
-        typeJavaName = typeJ;
-        typeName = " " + typeN + " ";
+    private void checkMethod(String methodName, String genericReturnType, String normalReturnType, String normalParaTypes, Class<?>... classSum){
+
+        Method testMethod = null;
         
-        expectedField = modifier + typeName + fieldName;
+        if(normalParaTypes == null)
+            normalParaTypes = "";
 
-        field = getField(fieldName);
+        String javaTypes = "";
 
-        if(field != null){
-            
-            /*  Code to check constructor goes here. Constructors force initialisation so only variables that are not in the constructor should be checked
-             *  in this way ~ Z is working on this;
-             * 
-             * checkDeclaredOnly();
-             */
+        if(classSum != null){
+            for(Class<?> c: classSum)
+                javaTypes += c.getName() + ",";
 
-            checkExpectedField(fieldName, expectedField);
-
+            javaTypes = javaTypes.substring(0, javaTypes.length() - 1);
         }
-        else
-            response += "Incorrect. Expected field: " + expectedField + "\n";
 
-        System.out.println(response);
-    }
-
-    private Field getField(String fieldName){
+        String errorMessage = "Expected Method Return Type: " + normalReturnType + "\nExpected Method: " + methodName + "(" + normalParaTypes +")\n";
         
-        Field testField = null;
-       
-            try {
-                testField = testClass.getDeclaredField(fieldName);
-                passed = true;
-                return testField;
-            }
-            catch (NoSuchFieldException e) {
-                    return testField;
-            }
-    }
-
-    private void checkDeclaredOnly(){
-       
-        field.setAccessible(true);
-
         try {
-            value = field.get(passenger);
-        }
-        catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+            testMethod = testClass.getDeclaredMethod(methodName, classSum);
 
-        if (value != null){
-            response += "Variable should ONLY be declared\n";
-            declaredOnly = false;
-        }
 
-        if(declaredOnly == false)
+                if(testMethod.getReturnType().getName().equals(genericReturnType)){
+
+                    passed = true;
+                    
+                    if(testMethod.toString().contains("." + methodName + "(" + javaTypes + ")"))
+                        response += "Correct method\n";
+                    else{
+                        response += errorMessage;
+                        passed = false;
+                    }
+
+                }
+                else
+                    response += errorMessage;
+        }
+        catch(Exception e)
+        {
             passed = false;
+        }
+
     }
+
+   /*  private void testMethodParameters(Method testMethod){
+        testMethod.getP
+    }*/
+
+
 
     private void checkSet(Object expectedValue){
                
@@ -339,22 +378,7 @@ public class PassengerTest {
 
         response += fieldName + " is set correctly.\n";
     }
-
-    private void checkExpectedField(String fieldName, String expectedField){
-
-        String isExpectedField = field.toString();
-
-        System.out.println(isExpectedField);
-
-        passed = isExpectedField.contains(modifier + " " + typeJavaName);
-
-        if(passed){
-            passed = isExpectedField.contains(testClass.getName() + "." + fieldName);
-            response += "Correct field.\n";
-        }
-        else
-            response += "Incorrect. Expected field: " + expectedField + ".\n";
-    }
+ 
 }
     
 
