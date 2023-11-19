@@ -49,6 +49,8 @@ public class LuggageManifestTest extends TestTemplate{
 
     @Test 
     public void testAddLuggage() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException{
+        checkMethod("addLuggage", "String", "String", "Passenger, Flight", (Class<?>[])(Passenger, Flight));
+
         Passenger p = new Passenger("TA890789", "Joe", "Bean", "POS123");
         Flight f = new Flight("POS123", "JFK", "POS", LocalDateTime.of(2023, 1, 23, 10, 00, 00));
         String details = "";
