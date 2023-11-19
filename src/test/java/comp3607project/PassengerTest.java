@@ -166,19 +166,22 @@ public class PassengerTest {
 
     @Test
     public void assignRandomCabinClassTest() throws IllegalArgumentException, IllegalAccessException{
+
+        field = getField("cabinClass");
+        field.setAccessible(true);
         
+        passed = false;
+
+        checkMethod("assignRandomCabinClass","void","void",null,(Class<?>[]) null);
+
         boolean passedF = false;
         boolean passedB = false;
         boolean passedP = false;
         boolean passedE = false;
 
-        field = getField("cabinClass");
-
-        field.setAccessible(true);
-
         int i = 0;
 
-        while (passedF == false & passedB == false & passedP == false & passedE == false){
+        while (passedF == false || passedB == false || passedP == false || passedE == false){
 
             Passenger test = new Passenger("checkSet","checkSet","checkSet","checkSet");
 
@@ -196,7 +199,7 @@ public class PassengerTest {
             if(value == 'E')
                 passedE = true;
 
-            if(i == 10)
+            if(i == 20)
                 break;
 
             i++;
@@ -214,6 +217,11 @@ public class PassengerTest {
 
         if(passedE == false)
             response += "cabinClass value 'E' does not exist\n";
+
+        if(!passedF || !passedB || !passedP || !passedE)
+            passed = false;
+
+        assertTrue(passed);
   
     }
 
@@ -295,6 +303,55 @@ public class PassengerTest {
             }
     }
 
+    //check to make sure all good
+    private void checkMethod(String methodName, String genericReturnType, String normalReturnType, String normalParaTypes, Class<?>... classSum){
+
+        Method testMethod = null;
+        
+        if(normalParaTypes == null)
+            normalParaTypes = "";
+
+        String javaTypes = "";
+
+        if(classSum != null){
+            for(Class<?> c: classSum)
+                javaTypes += c.getName() + ",";
+
+            javaTypes = javaTypes.substring(0, javaTypes.length() - 1);
+        }
+
+        String errorMessage = "Expected Method Return Type: " + normalReturnType + "\nExpected Method: " + methodName + "(" + normalParaTypes +")\n";
+        
+        try {
+            testMethod = testClass.getDeclaredMethod(methodName, classSum);
+
+
+                if(testMethod.getReturnType().getName().equals(genericReturnType)){
+
+                    passed = true;
+                    
+                    if(testMethod.toString().contains("." + methodName + "(" + javaTypes + ")"))
+                        response += "Correct method\n";
+                    else{
+                        response += errorMessage;
+                        passed = false;
+                    }
+
+                }
+                else
+                    response += errorMessage;
+        }
+        catch(Exception e)
+        {
+            passed = false;
+        }
+
+    }
+
+   /*  private void testMethodParameters(Method testMethod){
+        testMethod.getP
+    }*/
+
     private void checkDeclaredOnly(){
        
         field.setAccessible(true);
@@ -339,7 +396,7 @@ public class PassengerTest {
 
         response += fieldName + " is set correctly.\n";
     }
-
+ 
     private void checkExpectedField(String fieldName, String expectedField){
 
         String isExpectedField = field.toString();
@@ -350,7 +407,11 @@ public class PassengerTest {
 
         if(passed){
             passed = isExpectedField.contains(testClass.getName() + "." + fieldName);
-            response += "Correct field.\n";
+
+            if(passed)
+                response += "Correct field.\n";
+            else
+                response += "Incorrect. Expected field: " + expectedField + ".\n";
         }
         else
             response += "Incorrect. Expected field: " + expectedField + ".\n";
