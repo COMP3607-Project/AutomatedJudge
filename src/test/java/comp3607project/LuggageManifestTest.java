@@ -22,117 +22,133 @@ public class LuggageManifestTest extends TestTemplate{
         passed = false;
         field = null;
         testClass = LuggageManifest.class;
+        luggageManifest1.getSlips().clear();
     }
 
     @Test
     public void testSlips(){
-
         runFieldTest(testClass, "slips", "private", ArrayList.class.getName(), "ArrayList<LuggageSlip>");
-
         assertTrue(passed);        
-
         mark = passed ? 2 : 0;
         results.add(new Feedback("LuggageManifest", "slips Attribute", mark, response));
     }
 
     @Test 
     public void testCreateLuggageManifest(){
-        try{
-            assertTrue(luggageManifest1.getSlips() instanceof ArrayList);
-            response += "Correct initialization";
-            mark = 1;
-        }catch (AssertionError e){
-            response += "Incorrect initialization";
-            mark = 0;
-        }finally{
-            results.add(new Feedback("LuggageManifest", "Constructor", mark, response));
-        }
+        passed = luggageManifest1.getSlips() instanceof ArrayList;
+
+        mark = passed ? 1 : 0;
+        response = passed ? "Correct initialization": "Incorrect initialization";
+        
+        assertTrue(luggageManifest1.getSlips() instanceof ArrayList);
+        results.add(new Feedback("LuggageManifest", "Constructor", mark, response));
     }
 
     @Test 
     public void testAddLuggage(){
-        try{
-            Passenger p = new Passenger("TA890789", "Joe", "Bean", "POS123");
-            Flight f = new Flight("POS123", "JFK", "POS", LocalDateTime.of(2023, 1, 23, 10, 00, 00));
-            String details = p.toString();
+        Passenger p = new Passenger("TA890789", "Joe", "Bean", "POS123");
+        Flight f = new Flight("POS123", "JFK", "POS", LocalDateTime.of(2023, 1, 23, 10, 00, 00));
+        luggageManifest1.addLuggage(p, f);
+        String details = p.toString();
+        double excessCost = luggageManifest1.getExcessLuggageCost(p.getNumLuggage(), Flight.getAllowedLuggage(p.getCabinClass()));
 
-            if(p.getNumLuggage() == 0)
-                details += "\n No Luggage to add";
-            else{
-                String cost = luggageManifest1.getExcessLuggageCostByPassenger(p.getPassportNumber());
-                if(cost.equals("No Cost"))
-                    details += "\nPieces Added: (" + p.getNumLuggage() + ") Excess Cost: $0.00";
-                else
-                    details += "\nPieces Added: (" + p.getNumLuggage() + ") Excess Cost: $" + cost;
-            }
-
-            assertEquals(details ,luggageManifest1.addLuggage(p, f));
-            
-            for (Object obj : luggageManifest1.getSlips()){
-                LuggageSlip l = (LuggageSlip) obj;
-                if(l.hasOwner(p.getPassportNumber())){
-                    assertEquals(l.getLabel(), luggageManifest1.getExcessLuggageCost(p.getNumLuggage(), Flight.getAllowedLuggage(p.getCabinClass())));
-                }
-            }
-
-            assertFalse(luggageManifest1.getSlips().isEmpty());
-            assertEquals(p.getNumLuggage(), luggageManifest1.getSlips().size());
-            mark = 6;
-            response += "Correct functionality displayed";
-            
-        }catch (AssertionError e){
-            mark = 0;
-            response += "Incorrect functionality displayed";
-            
-        }finally{
-            results.add(new Feedback("LuggageManifest", "addLuggage Method", mark, response));
+        if(p.getNumLuggage() == 0)
+            details += "\nNo Luggage to add.";
+        else{
+            String cost = luggageManifest1.getExcessLuggageCostByPassenger(p.getPassportNumber());
+            if(cost.equals("No Cost"))
+                details += "\nPieces Added: (" + p.getNumLuggage() + "). Excess Cost: $0.00\n";
+            else
+                details += "\nPieces Added: (" + p.getNumLuggage() + "). Excess Cost: $" + cost + "\n";
         }
+            
+        for (Object obj : luggageManifest1.getSlips()){
+            LuggageSlip l = (LuggageSlip) obj;
+            System.out.println("yh");
+            if(l.hasOwner(p.getPassportNumber())){
+                System.out.println("no");
+            n       if(excessCost == 0.0 && l.getLabel().equals(""))
+                    passed = true;
+                else if (l.getLabel().equals(String.format("%.2f", excessCost)));
+                    passed = true;
+            }
+        }
+
+        System.out.println(passed);
+        if(passed){
+            passed = details.contains(luggageManifest1.addLuggage(p, f));
+            System.out.println(details + "\n" + luggageManifest1.addLuggage(p, f));
+            System.out.println(passed);
+            if(passed){
+                passed = luggageManifest1.getSlips().isEmpty() ? false: true;
+                System.out.println(passed);
+                if(passed)
+                    passed = (p.getNumLuggage() == luggageManifest1.getSlips().size());
+                    
+            }
+        }
+        mark = passed ? 6 : 0;
+        response = passed ? "Correct functionality displayed for adding luggage.": "Incorrect functionality displayed for adding luggage.";
+        
+        System.out.println(mark + " " + response);
+        System.out.println(p.getCabinClass() + " " + p.getNumLuggage());
+        System.out.println(details);
+        System.out.println(luggageManifest1.addLuggage(p, f));
+
+        for (Object obj : luggageManifest1.getSlips()){
+            LuggageSlip l = (LuggageSlip) obj;
+            if(l.hasOwner(p.getPassportNumber())){
+                if(excessCost == 0.0 && l.getLabel().equals(""))
+                    assertEquals(l.getLabel(),"");
+                else
+                   assertEquals(l.getLabel(), String.format("%.2f", excessCost));
+            }
+        }
+
+        assertTrue(details.contains(luggageManifest1.addLuggage(p, f)));
+        assertFalse(luggageManifest1.getSlips().isEmpty());
+        assertEquals(p.getNumLuggage(), luggageManifest1.getSlips().size());
+        
+        results.add(new Feedback("LuggageManifest", "addLuggage Method", mark, response));
+        
     }
 
     @Test
     public void testGetExcessLuggageCost(){
-        try{
-            assertEquals(70.00, luggageManifest1.getExcessLuggageCost(4,2),0.0);
-            assertEquals(0.00, luggageManifest1.getExcessLuggageCost(2,2),0.0);
-            assertEquals(35.00, luggageManifest1.getExcessLuggageCost(3,2),0.0);
-            mark = 3;
-            response += "Correct calculation of excess luggage cost.";
+        passed = (70.00 == luggageManifest1.getExcessLuggageCost(4,2));
+        mark = passed ? 1 : 0;
+        response = passed ? "Correct calculation of excess cost displayed.": "Incorrect calculation of excess cost displayed.";
 
-        }catch (AssertionError e){
-            mark = 0;
-            response += "Incorrect calculation of excess luggage cost.";
-
-        }finally{
-            results.add(new Feedback("LuggageManifest", "getExcessLuggageCost Method", mark, response));
-        }
+        assertEquals(70.00, luggageManifest1.getExcessLuggageCost(4,2),0.0);
+        assertEquals(0.00, luggageManifest1.getExcessLuggageCost(2,2),0.0);
+        assertEquals(35.00, luggageManifest1.getExcessLuggageCost(3,2),0.0);
+        
+        results.add(new Feedback("LuggageManifest", "getExcessLuggageCost Method", mark, response));
     }
 
     @Test 
     public void testGetExcessLuggageCostByPassenger(){
-        try{
-            Passenger p = new Passenger("TA890789", "Joe", "Bean", "POS123"); 
-            String costDetails = "";
+        Passenger p = new Passenger("TA890789", "Joe", "Bean", "POS123"); 
+        Flight f = new Flight("POS123", "JFK", "POS", LocalDateTime.of(2023, 1, 23, 10, 00, 00));
+        luggageManifest1.addLuggage(p, f);
+        String costDetails = "";
         
-            for (Object obj: luggageManifest1.getSlips()){
-                LuggageSlip l = (LuggageSlip) obj;
-                if(l.hasOwner(p.getPassportNumber())){
-                    costDetails = l.getLabel();
-                }
+        for (Object obj: luggageManifest1.getSlips()){
+            LuggageSlip l = (LuggageSlip) obj;
+            if(l.hasOwner(p.getPassportNumber())){
+                costDetails = l.getLabel();
             }
-        
-            if(costDetails.equals("0.00") || costDetails.equals(""))
-                costDetails =  "No Cost";
-
-            assertEquals(costDetails, luggageManifest1.getExcessLuggageCostByPassenger(p.getPassportNumber()));
-            mark = 5;
-            response += "Correct cost of excess luggage returned for passenger";
-        }catch (AssertionError e){
-            mark = 0;
-            response += "Incorrect cost of excess luggage returned for passenger";
-
-        }finally{
-            results.add(new Feedback("LuggageManifest", "getExcessLuggageCostByPassenger Method", mark, response));
         }
+        
+        if(costDetails.equals("0.00") || costDetails.equals(""))
+            costDetails =  "No Cost";
+
+        passed = costDetails.equals(luggageManifest1.getExcessLuggageCostByPassenger(p.getPassportNumber()));
+        mark = passed ? 5: 0;
+        response = passed ? "Correct cost of excess luggage returned for passenger.": "Incorrect cost of excess luggage returned for passenger.";
+
+        assertEquals(costDetails, luggageManifest1.getExcessLuggageCostByPassenger(p.getPassportNumber()));
+        results.add(new Feedback("LuggageManifest", "getExcessLuggageCostByPassenger Method", mark, response)); 
     }
 
 
@@ -146,25 +162,17 @@ public class LuggageManifestTest extends TestTemplate{
         if(!luggageManifest1.getSlips().isEmpty()){
             for(Object obj: luggageManifest1.getSlips()){
                 LuggageSlip l = (LuggageSlip) obj;
-                details += "\n" + l.toString() + "hello";
+                details += "\n" + l.toString();
             }
         } else 
-            details += "\nNo luggage boarded///.";
+            details += "\nNo luggage boarded.";
+            
+        passed = luggageManifest1.toString().strip().equals(details.strip());     
+        mark = passed ? 1 : 0;
+        response = passed ? "Correct format": "Incorrect format";
+        assertEquals(details, luggageManifest1.toString().strip());
 
-        if(passed){
-            passed = isExpectedField.contains(testClass.getName() + "." + fieldName);
-            response += "Correct field.\n";
-        }
-        else
-            response += "Incorrect. Expected field: " + expectedField + ".\n";
-        
-        assertEquals(luggageManifest1.toString(), details);
-        response += "Correct format";
-        mark = 2;
-        
-            System.out.println(details);
-            System.out.println(luggageManifest1.toString());
-            results.add(new Feedback("LuggageManifest", "toString method", mark, response));
+        results.add(new Feedback("LuggageManifest", "toString method", mark, response));
         
     }
 }
