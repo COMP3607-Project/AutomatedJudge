@@ -13,6 +13,7 @@ public abstract class TestTemplate extends Exception{
     protected String typeJavaName;
     protected String typeName;
     protected String modifier;
+    String className;
     protected Field field;
     protected Object value;
     protected Passenger passenger;
