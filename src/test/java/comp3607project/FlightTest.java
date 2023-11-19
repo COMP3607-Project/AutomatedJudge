@@ -22,41 +22,53 @@ public class FlightTest extends TestTemplate{
     @Test
     public void testFlightNo(){
         runFieldTest(testClass, "flightNo", "private", String.class.getName(), "String");
-        assertTrue(passed);    
         mark = passed ? 1 : 0;
         results.add(new Feedback("Flight", "flightNo Attribute", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
+        assertTrue(passed);    
     }
 
     @Test
     public void testDestination(){
         runFieldTest(testClass, "destination", "private", String.class.getName(), "String");
-        assertTrue(passed); 
+        if(!passed)
+            passedTestsMark--; 
+
         mark = passed ? 1 : 0;
         results.add(new Feedback("Flight", "destination Attribute", mark, response));
+        assertTrue(passed);
     }
 
     @Test
     public void testOrigin(){
         runFieldTest(testClass, "origin", "private", String.class.getName(), "String");
-        assertTrue(passed); 
+        if(!passed)
+            passedTestsMark--;
         mark = passed ? 1 : 0;
         results.add(new Feedback("Flight", "origin Attribute", mark, response));
+        assertTrue(passed);
     }
 
     @Test
     public void testFlightDate(){
         runFieldTest(testClass, "flightDate", "private", LocalDateTime.class.getName(), "LocalDateTime");
-        assertTrue(passed); 
+        if(!passed)
+            passedTestsMark--;
         mark = passed ? 1 : 0;
         results.add(new Feedback("Flight", "flightDate Attribute", mark, response));
+        assertTrue(passed);
     }
 
     @Test
     public void testManifest(){
         runFieldTest(testClass, "manifest", "private", LuggageManifest.class.getName(), "LuggageManifest");
-        assertTrue(passed); 
+        if(!passed)
+            passedTestsMark--;
         mark = passed ? 1 : 0;
         results.add(new Feedback("Flight", "manifest Attribute", mark, response));
+        assertTrue(passed);
     }
 
     @Test
@@ -84,6 +96,8 @@ public class FlightTest extends TestTemplate{
          LocalDateTime.of(2023, 1, 23, 10, 00, 00).equals(flightDateValue) &&
          (manifestValue instanceof LuggageManifest);
 
+        if(!passed)
+            passedTestsMark--;
         mark = passed ? 2: 0;
         response = passed ? "Correct initialization of attributes.": "Incorrect initialization of attributes.";
         results.add(new Feedback("Flight", "toString method", mark, response));
@@ -116,6 +130,8 @@ public class FlightTest extends TestTemplate{
         }else
             passed = flight1.checkInLuggage(p).strip().replaceAll(" ","").toLowerCase().contains("invalid flight".replaceAll(" ",""));
 
+        if(!passed)
+            passedTestsMark--;
         mark = passed ? 5: 0;
         response = passed ? "Correct functionality displayed for checking in luggage.": "Incorrect functionality displayed for checking in luggage.";
         
@@ -136,6 +152,9 @@ public class FlightTest extends TestTemplate{
         LuggageManifest manifestValue = (LuggageManifest)field.get(flight1);
 
         passed = flight1.printLuggageManifest().strip().replaceAll(" ","").toLowerCase().contains(manifestValue.toString().replaceAll(" ","").toLowerCase().strip());
+        
+        if(!passed)
+            passedTestsMark--;
         mark = passed ? 1: 0;
         response = passed ? "Correct respresentation of flight manifest": "Incorrect respresentation of flight manifest";         
 
@@ -158,7 +177,9 @@ public class FlightTest extends TestTemplate{
          (2==Flight.getAllowedLuggage('B')) &&
          (1==Flight.getAllowedLuggage('P')) &&
          (0==Flight.getAllowedLuggage('E'));
- 
+        
+        if(!passed)
+            passedTestsMark--;
         mark = passed ? 2: 0;
         response = passed ? "Correct assignment of luggage pieces": "Incorrect assignment of luggage pieces";
         results.add(new Feedback("Flight", "getAllowedLuggage method", mark, response));
@@ -173,6 +194,9 @@ public class FlightTest extends TestTemplate{
     @Test 
     public void testToString(){
         passed = flight1.toString().strip().toLowerCase().replaceAll(" ","").contains("POS123 DESTINATION: JFK ORIGIN: POS 2023-01-23T10:00".replaceAll(" ","").toLowerCase());     
+        
+        if(!passed)
+            passedTestsMark--;
         mark = passed ? 1: 0;
         response = passed ? "Correct format": "Incorrect format";
         results.add(new Feedback("Flight", "toString method", mark, response));

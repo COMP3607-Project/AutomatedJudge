@@ -24,9 +24,11 @@ public class LuggageManifestTest extends TestTemplate{
     @Test
     public void testSlips(){
         runFieldTest(testClass, "slips", "private", ArrayList.class.getName(), "ArrayList<LuggageSlip>");
-        assertTrue(passed);        
+        if(!passed)
+            passedTestsMark--;        
         mark = passed ? 2 : 0;
         results.add(new Feedback("LuggageManifest", "slips Attribute", mark, response));
+        assertTrue(passed);
     }
 
     @Test 
@@ -36,6 +38,9 @@ public class LuggageManifestTest extends TestTemplate{
         ArrayList<LuggageSlip> slipsValue = (ArrayList<LuggageSlip>) field.get(luggageManifest1);
         
         passed = slipsValue instanceof ArrayList;
+
+        if(!passed)
+            passedTestsMark--;
         mark = passed ? 1 : 0;
         response = passed ? "Correct initialization": "Incorrect initialization";
         results.add(new Feedback("LuggageManifest", "Constructor", mark, response));
@@ -97,13 +102,11 @@ public class LuggageManifestTest extends TestTemplate{
                 passed = numLuggageValue == slipsValue.size();
         }
 
+        if(!passed)
+            passedTestsMark--;
         mark = passed ? 6 : 0;
         response = passed ? "Correct functionality displayed for adding luggage.": "Incorrect functionality displayed for adding luggage.";
         results.add(new Feedback("LuggageManifest", "addLuggage Method", mark, response));
-
-        System.out.println(numLuggageValue + " " + slipsValue.size());
-        System.out.println(luggageManifest1.addLuggage(p, f));
-        System.out.println(details);
 
         for (Object obj : slipsValue){
             LuggageSlip l = (LuggageSlip) obj;
@@ -132,6 +135,10 @@ public class LuggageManifestTest extends TestTemplate{
         passed = (70.00 == luggageManifest1.getExcessLuggageCost(4,2)) &&
             (0.00 == luggageManifest1.getExcessLuggageCost(2,2)) &&
             (35.00 == luggageManifest1.getExcessLuggageCost(3,2));
+        
+        if(!passed)
+            passedTestsMark--;
+
         mark = passed ? 1 : 0;
         response = passed ? "Correct calculation of excess cost displayed.": "Incorrect calculation of excess cost displayed.";
         results.add(new Feedback("LuggageManifest", "getExcessLuggageCost Method", mark, response));
@@ -156,8 +163,6 @@ public class LuggageManifestTest extends TestTemplate{
         passportNo.setAccessible(true);
         String passportNoValue = (String) passportNo.get(p);
 
-        
-        
         for (Object obj: slipsValue){
             LuggageSlip l = (LuggageSlip) obj;
             if(l.hasOwner(passportNoValue)){
@@ -174,6 +179,9 @@ public class LuggageManifestTest extends TestTemplate{
             costDetails =  "No Cost";
 
         passed = luggageManifest1.getExcessLuggageCostByPassenger(passportNoValue).strip().replaceAll(" ","").toLowerCase().contains(costDetails.replaceAll(" ","").toLowerCase().strip());
+        if(!passed)
+            passedTestsMark--;
+        
         mark = passed ? 5: 0;
         response = passed ? "Correct cost of excess luggage returned for passenger.": "Incorrect cost of excess luggage returned for passenger.";
         results.add(new Feedback("LuggageManifest", "getExcessLuggageCostByPassenger Method", mark, response)); 
@@ -201,6 +209,9 @@ public class LuggageManifestTest extends TestTemplate{
             }
 
             passed = luggageManifest1.toString().strip().replaceAll(" ","").toLowerCase().contains(details.replaceAll(" ","").toLowerCase().strip());     
+            if(!passed)
+                passedTestsMark--;
+            
             mark = passed ? 1 : 0;
             response = passed ? "Correct format": "Incorrect format";
             results.add(new Feedback("LuggageManifest", "toString method", mark, response));

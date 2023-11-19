@@ -22,6 +22,7 @@ public abstract class TestTemplate extends Exception{
     protected Class<?> testClass;
 
     protected static int cleanCodeMark = 5;
+    protected static int passedTestsMark = 14;
 
     //temporary arraylist for storing feedback. should be in the class that generates the pdf
     protected ArrayList<Feedback> results = new ArrayList<Feedback>();
