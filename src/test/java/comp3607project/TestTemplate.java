@@ -33,11 +33,11 @@ public abstract class TestTemplate extends Exception{
         JUnitCore.runClasses(testClasses);
     }
 
-    public int getCleanCodeMarks(){
+    public static int getCleanCodeMarks(){
         return cleanCodeMark;
     }
 
-    public int getPassedTestsMark(){
+    public static int getPassedTestsMark(){
         return passedTestsMark;
     }
 

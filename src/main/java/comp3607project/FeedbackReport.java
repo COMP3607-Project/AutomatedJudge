@@ -23,7 +23,7 @@ public class FeedbackReport{
             PdfWriter.getInstance(document, new FileOutputStream("Report.pdf"));
             document.open();
             headers.addHeader(document);
-            content.addTables(document);
+            content.addContent(document);
             document.close();
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();

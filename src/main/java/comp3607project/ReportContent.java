@@ -88,9 +88,35 @@ public class ReportContent {
                 document.add(entry.getValue());
             }
 
-            studentFeedback.clear();
         } catch (DocumentException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addMarks(Document document){
+        try {
+            int totalMarks = 0;
+
+            Paragraph jUnitTests = new Paragraph("Passes JUnit Tests: " + TestTemplate.getPassedTestsMark() );
+            Paragraph cleanCode = new Paragraph("Has Clean Code: " + TestTemplate.getCleanCodeMarks() );
+
+            for (Feedback f : studentFeedback)
+                totalMarks += f.getMark();
+
+            Paragraph marksParagraph = new Paragraph("Total Marks: " + totalMarks);
+
+            document.add(jUnitTests);
+            document.add(cleanCode);
+            document.add(marksParagraph);
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addContent(Document document){
+        addTables(document);
+        addMarks(document);
+        studentFeedback.clear();
     }
 }
