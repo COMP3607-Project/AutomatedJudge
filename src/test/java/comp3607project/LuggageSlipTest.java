@@ -2,31 +2,16 @@ package comp3607project;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-
 import org.junit.Before;
 import org.junit.Test;
 
 public class LuggageSlipTest extends TestTemplate{
-    
-    private static int total = 0;
 
-    private String response;
-    boolean passed;
-    boolean declaredOnly;
-    String typeJavaName;
-    String typeName;
-    String modifier;
-    private Field field;
-    Object value;
-    private String fieldName;
-    private Class<?> testClass;
-    LuggageSlip luggageSlip;
-    LuggageSlip luggageSlip1;
-    Passenger passenger;
-    Flight flight;
+    private Flight flight;
+    private LuggageSlip luggageSlip;
+    private LuggageSlip luggageSlip1;
+
 
     public LuggageSlipTest(){
         passenger = new Passenger("jfk","jfk","jfk","jfk");
@@ -34,53 +19,68 @@ public class LuggageSlipTest extends TestTemplate{
         luggageSlip = new LuggageSlip(passenger, flight);
         luggageSlip1 = new LuggageSlip(passenger, flight, "xyz");
         testClass = LuggageSlip.class;
+        className = "LuggageSlip";
     }
     
     @Before
-    public void initLuggageSlipTest() {
-        
+    public void init() {
+          
         response = "";
+        mark = 0;
         declaredOnly = false;
         passed = false;
         field = null;
-        testClass = LuggageSlip.class;
     }
 
     @Test
     public void testPassengerField(){
         
-        runFieldTest(testClass,"owner", "private", Passenger.class.getName(), "Passenger");
-
-        assertTrue(passed);
-
-        total += 1;
-
-        System.out.println(total);
-
-    }
-
-    @Test
-    public void luggageSlipIDCounterField(){
+        runFieldTest(testClass, "owner", "private", Passenger.class.getName(), "Passenger");
         
-        runFieldTest(testClass,"luggageSlipIDCounter", "private static", "int", "int");
+        if(passed)
+            mark += 1;
 
+        ReportContent.addFeedback(new Feedback(className,"Passenger Field", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
+            
         assertTrue(passed);
-
-        total += 1;
-                System.out.println(total);
 
     }
 
     @Test
-    public void luggageSlipIDField(){
+    public void testluggageSlipIDCounterField(){
+        
+        runFieldTest(testClass, "luggageSlipIDCounter", "private static", "int", "int");
+
+        if(passed)
+            mark += 1;
+
+        ReportContent.addFeedback(new Feedback(className,"luggageSlipCounter Field", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
+        
+        assertTrue(passed);
+    
+    }
+
+    @Test
+    public void testluggageSlipIDField(){
         
         runFieldTest(testClass,"luggageSlipID", "private", String.class.getName(), "String");
 
+        if(passed)
+            mark += 1;
+
+        ReportContent.addFeedback(new Feedback(className,"luggageSlipID Field", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
+            
         assertTrue(passed);
-
-        total += 1;
-                System.out.println(total);
-
+        
     }
 
     @Test
@@ -88,46 +88,80 @@ public class LuggageSlipTest extends TestTemplate{
         
         runFieldTest(testClass,"label", "private", String.class.getName(), "String");
 
-        assertTrue(passed);
+        if(passed)
+            mark += 1;
 
-        total += 1;
-                System.out.println(total);
+        ReportContent.addFeedback(new Feedback(className,"label Field", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
+        
+        assertTrue(passed);
+    
 
     }
 
     @Test
-    public void testConstrctor() throws IllegalArgumentException, IllegalAccessException{
+    public void testConstructor() throws IllegalArgumentException, IllegalAccessException{
 
         Constructor<?>[] constructors = testClass.getConstructors();
 
         String expectedConstructor = "public " + testClass.getName() + "("+ Passenger.class.getName() + "," + Flight.class.getName() + ")";
 
+        boolean track = true;
+
+        mark = 3;
+
         passed = true;
 
-        field = getField("owner");
+        fieldName = "owner";
+        field = getField(fieldName);
         checkSet(passenger, luggageSlip);
 
-        field = getField("label");
+        if(!passed){
+            mark-=1;
+            track = false;
+        }
+
+        passed =true;
+
+        fieldName = "label";
+        field = getField(fieldName);
         checkSet("", luggageSlip);
 
-        field = getField("luggageSlipIDCounter");
+        if(!passed){
+            mark-=1;
+            track = false;
+        }
+
+        passed = true;
+        
+        fieldName = "luggageSlipID";
+        field = getField(fieldName);
         field.setAccessible(true);
-        int value = (int)field.get(luggageSlip);
-        checkSet(value, luggageSlip);
 
-        field = getField("luggaeSlipID");
-        checkSet(flight.getFlightNo() + "_" + passenger.getLastName() + "_" + "1", luggageSlip);
+        if(field.get(luggageSlip) == null){
+            passed = false;
+            mark-=1;
+        }
 
-        if(!expectedConstructor.equals(constructors[0].toGenericString()) && !expectedConstructor.equals(constructors[1].toGenericString()))
-            response += "Expected Constructor: public Passenger(String passportNumber, String firstName, String lastName, String flightNo)\n";
+        if(!expectedConstructor.equals(constructors[0].toGenericString()) && !expectedConstructor.equals(constructors[1].toGenericString())){
+            response += "Expected Constructor: public LuggageSlip(Passenger p, Flight f, String label)\n";
+            if(mark > 0){
+                mark -= 1;
+                track = false;
+            }
+        }
         else
             response += "Correct Constructor";
 
         results.add(new Feedback(className,"Constructor", mark, response));
 
-        assertEquals(expectedConstructor, constructors[0].toGenericString());
+        if(!passed)
+            passedTestsMark--;
 
-        assertTrue(passed);
+        assertTrue(track);
+
     }
 
     @Test
@@ -137,34 +171,131 @@ public class LuggageSlipTest extends TestTemplate{
 
         String expectedConstructor = "public " + testClass.getName() + "("+ Passenger.class.getName() + "," + Flight.class.getName() + "," 
                                      + String.class.getName() + ")";
+        boolean track = true;
+
+        mark = 3;
 
         passed = true;
 
-        field = getField("owner");
-        checkSet(passenger, luggageSlip);
+        fieldName = "owner";
+        field = getField(fieldName);
+        checkSet(passenger, luggageSlip1);
 
-        field = getField("label");
-        checkSet("xyz", luggageSlip);
+        if(!passed){
+            mark-=1;
+            track = false;
+        }
 
-        field = getField("luggageSlipIDCounter");
+        passed = true;
 
-        checkSet(2, luggageSlip);
+        fieldName = "label";
+        field = getField(fieldName);
+        checkSet("xyz", luggageSlip1);
 
-        field = getField("luggaeSlipID");
-        checkSet(flight.getFlightNo() + "_" + passenger.getLastName() + "_" + "1", luggageSlip);
+        if(!passed){
+            mark-=1;
+            track = false;
+        }
 
-        if(!expectedConstructor.equals(constructors[0].toGenericString()) && !expectedConstructor.equals(constructors[1].toGenericString()))
-            response += "Expected Constructor: public Passenger(String passportNumber, String firstName, String lastName, String flightNo)\n";
+        passed = true;
+        
+        fieldName = "luggageSlipID";
+        field = getField(fieldName);
+        field.setAccessible(true);
+          
+        if(field.get(luggageSlip1) == null){
+            passed = false;
+            mark-=1;
+        }
+
+        if(!expectedConstructor.equals(constructors[0].toGenericString()) && !expectedConstructor.equals(constructors[1].toGenericString())){
+            response += "Expected Constructor: public LuggageSlip(Passenger p, Flight f, String label)\n";
+            if(mark > 0)
+                mark -= 1;
+                track = false;
+        }
         else
             response += "Correct Constructor";
 
-        results.add(new Feedback(className,"Constructor", mark, response));
+        results.add(new Feedback(className,"Overloaded Constructor", mark, response));
 
-        assertEquals(expectedConstructor, constructors[0].toGenericString());
+        
+        if(!track)
+            passedTestsMark--;
+
+        assertTrue(track);
+    }
+
+    @Test
+    public void hasOwnerTest(){
+
+        checkMethod("hasOwner","boolean","boolean","String", String.class);
+
+        passed = false;
+
+        if(luggageSlip.hasOwner("jfk")){
+            if(!luggageSlip.hasOwner("huhh"))
+                passed = true;
+                mark += 2;
+                response = "Correct Functionality!";
+        }
+
+        if(!passed)
+            response += "Incorrect functionality\n";
+
+        results.add(new Feedback(className,"hasOwner Method", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
 
         assertTrue(passed);
     }
 
+    @Test 
+    public void testToString() throws IllegalArgumentException, IllegalAccessException{
+
+        String passportNum = "TA890789";
+        String fName = "Joe";
+        String lName = "Bean";
+        String flightNo = "POS123";
+
+        Passenger p = new Passenger(passportNum, fName, lName, flightNo);
+        LuggageSlip ls = new LuggageSlip(p, flight);
+
+        testClass = Passenger.class;
+        
+        field = getField("numLuggage");
+        field.setAccessible(true);
+        
+        int luggageValue = (int)field.get(p);
+
+        field = getField("cabinClass");
+        field.setAccessible(true);
+
+        char classValue = (char)field.get(p);
+
+        testClass = LuggageSlip.class;
+
+        String expectedToString = ls.getLuggageSlipID() + " PP NO. " + passportNum + " NAME: " + fName.charAt(0) + "." + lName +" NUMLUGGAGE: " + luggageValue +  " CLASS: " + classValue;
+        String actualToString = (ls.toString().replaceAll(" ","")).toLowerCase().replaceAll(".","").replaceAll(":","");
+
+        expectedToString = (expectedToString.replaceAll(" ","")).toLowerCase().replaceAll(".","").replaceAll(":","");
+
+        passed = actualToString.contains(expectedToString);     
+        mark = passed ? 2 : 0;
+        response = passed ? "Correct format": "Incorrect format. Please verify with rubric\n";
+        
+        ReportContent.addFeedback(new Feedback("Passenger", "toString Method", mark, response));
+        
+        if(!passed)
+            passedTestsMark--;
+
+        assertEquals(expectedToString, actualToString);
+        assertTrue(passed);
+
+    }
+
+    //methods
     private void checkSet(Object expectedValue, Object thisClass){
                
         field.setAccessible(true);
@@ -185,6 +316,7 @@ public class LuggageSlipTest extends TestTemplate{
         if (value != expectedValue){
             response += fieldName + " is not set to value from constructor.\n";
             passed = false;
+            return;
         }
 
         response += fieldName + " is set correctly.\n";

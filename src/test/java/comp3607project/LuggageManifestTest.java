@@ -1,11 +1,15 @@
 package comp3607project;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+
+
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class LuggageManifestTest extends TestTemplate{
     private LuggageManifest luggageManifest1;

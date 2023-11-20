@@ -1,8 +1,7 @@
 package comp3607project;
 
-import org.junit.*;
+
 import org.junit.runner.JUnitCore;
-import static org.junit.Assert.*;
 import java.lang.reflect.*;
 import java.util.ArrayList;
 
@@ -14,7 +13,7 @@ public abstract class TestTemplate extends Exception{
     protected String typeJavaName;
     protected String typeName;
     protected String modifier;
-    String className;
+    protected String className;
     protected Field field;
     protected Object value;
     protected Passenger passenger;
@@ -29,7 +28,7 @@ public abstract class TestTemplate extends Exception{
     protected ArrayList<Feedback> results = new ArrayList<Feedback>();
     
     public void runTests(){
-        Class[] testClasses = {ClassTestSuite.class};
+        Class<?>[] testClasses = {ClassTestSuite.class};
         JUnitCore.runClasses(testClasses);
     }
 
@@ -46,11 +45,6 @@ public abstract class TestTemplate extends Exception{
 
         if(field != null){
             
-            /*  Code to check constructor goes here. Constructors force initialisation so only variables that are not in the constructor should be checked
-             *  in this way ~ Z is working on this;
-             * 
-             * checkDeclaredOnly();
-             */
 
             checkExpectedField(fieldName, expectedField);
 
@@ -126,7 +120,7 @@ public abstract class TestTemplate extends Exception{
         }
 
         String errorMessage = "Expected Method Return Type: " + normalReturnType + "\nExpected Method: " + methodName + "(" + normalParaTypes +")\n";
-        System.out.println(errorMessage);
+
         try {
             testMethod = testClass.getDeclaredMethod(methodName, classSum);
 
@@ -153,6 +147,12 @@ public abstract class TestTemplate extends Exception{
             cleanCodeMark--;
         }
 
+
+
     }
+
+    //abstracts
+    public abstract void init();
+    public abstract void testToString() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException;
 }
              
