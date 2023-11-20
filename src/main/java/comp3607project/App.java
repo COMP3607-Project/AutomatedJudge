@@ -28,8 +28,8 @@ public class App
                 for (File f1: studentFiles) 
                     checker.checkCompilation(f1.getAbsolutePath());
 
-                failed = checker.getFailedCount();
-                System.out.println("Total failed compilations: " + failed);
+                //failed = checker.getFailedCount();
+                //System.out.println("Total failed compilations: " + failed);
             } 
         }
         catch(Exception e){
