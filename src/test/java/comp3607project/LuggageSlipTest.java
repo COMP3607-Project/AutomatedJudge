@@ -1,14 +1,16 @@
 package comp3607project;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class LuggageSlipTest {
+public class LuggageSlipTest extends TestTemplate{
     
     private static int total = 0;
 
@@ -20,11 +22,20 @@ public class LuggageSlipTest {
     String modifier;
     private Field field;
     Object value;
-    private LuggageSlip luggageSlip;
     private String fieldName;
     private String expectedField;
     private Class<?> testClass;
+    LuggageSlip luggageSlip;
+    Passenger passenger;
+    Flight flight;
 
+    public LuggageSlipTest(){
+        passenger = new Passenger("jfk","jfk","jfk","jfk");
+        flight = new Flight("jfk","jfk","jfk", null);
+        luggageSlip = new LuggageSlip(passenger, flight);
+        testClass = LuggageSlip.class;
+    }
+    
     @Before
     public void initLuggageSlipTest() {
         
@@ -32,11 +43,6 @@ public class LuggageSlipTest {
         declaredOnly = false;
         passed = false;
         field = null;
-        testClass = LuggageSlip.class;
-        Passenger passenger = new Passenger("jfk","jfk","jfk","jfk");
-        Flight flight = new Flight("jfk","jfk","jfk", null);
-        LuggageSlip luggageSlip = new LuggageSlip(passenger, flight);
-
     }
 
     @Test
@@ -88,7 +94,41 @@ public class LuggageSlipTest {
 
     }
 
+    @Test
+    public void testConstrctor() throws IllegalArgumentException, IllegalAccessException{
 
+        Constructor<?>[] constructors = testClass.getConstructors();
+
+        String expectedConstructor = "public " + testClass.getName() + "("+ Passenger.class.getName() + "," + Flight.class.getName() + ")";
+
+        passed = true;
+
+        field = getField("owner");
+        checkSet(passenger, luggageSlip);
+
+        field = getField("label");
+        checkSet("", luggageSlip);
+
+        field = getField("luggageSlipIDCounter");
+        field.setAccessible(true);
+        int value = (int)field.get(luggageSlip);
+        checkSet(value, luggageSlip);
+
+        field = getField("luggaeSlipID");
+        checkSet(flight.getFlightNo() + "_" + passenger.getLastName() + "_" + "1", luggageSlip);
+
+        if(!expectedConstructor.equals(constructors[0].toGenericString()) && !expectedConstructor.equals(constructors[1].toGenericString()))
+            response += "Expected Constructor: public Passenger(String passportNumber, String firstName, String lastName, String flightNo)\n";
+        else
+            response += "Correct Constructor";
+
+        results.add(new Feedback(className,"Constructor", mark, response));
+
+        assertEquals(expectedConstructor, constructors[0].toGenericString());
+        assertTrue(passed);
+
+
+    }
 
     private void runTest(String fName, String mod,String typeJ,String typeN){
 
@@ -119,56 +159,28 @@ public class LuggageSlipTest {
         System.out.println(response);
     }
 
-    private Field getField(String fieldName){
-        
-        Field testField = null;
-       
-            try {
-                testField = testClass.getDeclaredField(fieldName); //change "Class".class.getDeclaredField(fieldName), depending on the class you are getting the field from
-                passed = true;
-                return testField;
-            }
-            catch (NoSuchFieldException e) {
-                    return testField;
-            }       
-    }
-
-    private void checkDeclaredOnly(){
-       
+    private void checkSet(Object expectedValue, Object thisClass){
+               
         field.setAccessible(true);
 
         try {
-            value = field.get(null);
+            value = field.get(thisClass);
         }
         catch (IllegalAccessException e) {
             e.printStackTrace();
         }
 
-        if (value != null){
-            response += "Variable should ONLY be declared\n";
-            declaredOnly = false;
-            
-        }
-
-        if(declaredOnly == false)
+        if (value == null){
+            response += fieldName + " is not set.\n";
             passed = false;
-    }
-
-    private void checkExpectedField(String fieldName, String expectedField){
-
-        String isExpectedField = field.toString();
-
-        System.out.println(isExpectedField);
-
-        passed = isExpectedField.contains(modifier + " " + typeJavaName);
-
-        System.out.println(passed);
-
-        if(passed){
-            passed = isExpectedField.contains(testClass.getName() + "." + fieldName);
-            response += "Correct field.\n";
+            return;
         }
-        else
-            response += "Incorrect. Expected field: " + expectedField + ".\n";
+
+        if (value != expectedValue){
+            response += fieldName + " is not set to value from constructor.\n";
+            passed = false;
+        }
+
+        response += fieldName + " is set correctly.\n";
     }
 }

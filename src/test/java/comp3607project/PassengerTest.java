@@ -17,7 +17,7 @@ public class PassengerTest extends TestTemplate{
         testClass = Passenger.class;
         className = "Passenger";
     }
-    
+
     @Before
     public void initPassengerTest() {
         
@@ -116,11 +116,10 @@ public class PassengerTest extends TestTemplate{
 
         mark += 1;
 
-
     }
 
     @Test
-    public void testConstrctor(){
+    public void testConstructor(){
 
         Constructor<?>[] constructors = testClass.getConstructors();
 
@@ -163,7 +162,6 @@ public class PassengerTest extends TestTemplate{
 
         assertEquals(expectedConstructor, constructors[0].toGenericString());
         assertTrue(passed);
-
 
     }
 
@@ -254,16 +252,18 @@ public class PassengerTest extends TestTemplate{
         char classValue = (char)field.get(p);
 
         String expectedToString = "PP NO. " + passportNum + " NAME: " + fName.charAt(0) + "." + lName +" NUMLUGGAGE: " + luggageValue +  " CLASS: " + classValue;
-        String actualToString = (p.toString().replaceAll(" ","")).toLowerCase();
+        String actualToString = (p.toString().replaceAll(" ","")).toLowerCase().replaceAll(".","").replaceAll(":","");
 
-        expectedToString = (expectedToString.replaceAll(" ","")).toLowerCase();
+        expectedToString = (expectedToString.replaceAll(" ","")).toLowerCase().replaceAll(".","").replaceAll(":","");
+
         
         passed = actualToString.contains(expectedToString);     
         mark = passed ? 3 : 0;
         response = passed ? "Correct format": "Incorrect format";
         
         results.add(new Feedback("Passenger", "toString Method", mark, response));
-
+        
+        assertEquals(expectedToString, actualToString);
         assertTrue(passed);
 
     }

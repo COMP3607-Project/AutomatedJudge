@@ -50,7 +50,6 @@ public abstract class TestTemplate extends Exception{
         else
             response += "Incorrect. Expected field: " + expectedField + "\n";
 
-        System.out.println(response);
     }
 
     protected Field getField(String fieldName){
@@ -90,8 +89,6 @@ public abstract class TestTemplate extends Exception{
     protected void checkExpectedField(String fieldName, String expectedField){
 
         String isExpectedField = field.toString();
-
-        System.out.println(isExpectedField);
 
         passed = isExpectedField.contains(modifier + " " + typeJavaName);
 

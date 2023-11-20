@@ -1,4 +1,5 @@
 package comp3607project;
+
 import java.time.LocalDateTime;
 
 public class Flight
