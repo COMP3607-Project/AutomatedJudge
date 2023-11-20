@@ -33,6 +33,14 @@ public abstract class TestTemplate extends Exception{
         JUnitCore.runClasses(testClasses);
     }
 
+    public int getCleanCodeMarks(){
+        return cleanCodeMark;
+    }
+
+    public int getPassedTestsMark(){
+        return passedTestsMark;
+    }
+
     protected void runFieldTest(Class<?> testClass, String fName, String mod,String typeJ,String typeN){
 
         fieldName = fName;
