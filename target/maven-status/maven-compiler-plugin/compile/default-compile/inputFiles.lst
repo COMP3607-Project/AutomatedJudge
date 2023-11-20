@@ -1,5 +1,15 @@
+/workspaces/AutomatedJudge/src/main/java/comp3607project/Passenger.java
+/workspaces/AutomatedJudge/src/main/java/comp3607project/Feedback.java
 /workspaces/AutomatedJudge/src/main/java/comp3607project/Container.java
-/workspaces/AutomatedJudge/src/main/java/comp3607project/UnzipUtility.java
+/workspaces/AutomatedJudge/src/main/java/comp3607project/LuggageSlip.java
 /workspaces/AutomatedJudge/src/main/java/comp3607project/App.java
+/workspaces/AutomatedJudge/src/main/java/comp3607project/ReportContent.java
+/workspaces/AutomatedJudge/src/main/java/comp3607project/FeedbackReport.java
 /workspaces/AutomatedJudge/src/main/java/comp3607project/Folder.java
+/workspaces/AutomatedJudge/src/main/java/comp3607project/LuggageManifest.java
+/workspaces/AutomatedJudge/src/main/java/comp3607project/Flight.java
+/workspaces/AutomatedJudge/src/main/java/comp3607project/LuggageManagementSystem.java
+/workspaces/AutomatedJudge/src/main/java/comp3607project/UnzipUtility.java
+/workspaces/AutomatedJudge/src/main/java/comp3607project/ReportHeader.java
+/workspaces/AutomatedJudge/src/main/java/comp3607project/FileCompilationChecker.java
 /workspaces/AutomatedJudge/src/main/java/comp3607project/Iterator.java
