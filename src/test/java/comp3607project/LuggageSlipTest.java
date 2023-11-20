@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.time.LocalDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,9 +22,9 @@ public class LuggageSlipTest extends TestTemplate{
     private Field field;
     Object value;
     private String fieldName;
-    private String expectedField;
     private Class<?> testClass;
     LuggageSlip luggageSlip;
+    LuggageSlip luggageSlip1;
     Passenger passenger;
     Flight flight;
 
@@ -33,6 +32,7 @@ public class LuggageSlipTest extends TestTemplate{
         passenger = new Passenger("jfk","jfk","jfk","jfk");
         flight = new Flight("jfk","jfk","jfk", null);
         luggageSlip = new LuggageSlip(passenger, flight);
+        luggageSlip1 = new LuggageSlip(passenger, flight, "xyz");
         testClass = LuggageSlip.class;
     }
     
@@ -48,7 +48,7 @@ public class LuggageSlipTest extends TestTemplate{
     @Test
     public void testPassengerField(){
         
-        runTest("owner", "private", Passenger.class.getName(), "Passenger");
+        runFieldTest(testClass,"owner", "private", Passenger.class.getName(), "Passenger");
 
         assertTrue(passed);
 
@@ -61,7 +61,7 @@ public class LuggageSlipTest extends TestTemplate{
     @Test
     public void luggageSlipIDCounterField(){
         
-        runTest("luggageSlipIDCounter", "private static", "int", "int");
+        runFieldTest(testClass,"luggageSlipIDCounter", "private static", "int", "int");
 
         assertTrue(passed);
 
@@ -73,7 +73,7 @@ public class LuggageSlipTest extends TestTemplate{
     @Test
     public void luggageSlipIDField(){
         
-        runTest("luggageSlipID", "private", String.class.getName(), "String");
+        runFieldTest(testClass,"luggageSlipID", "private", String.class.getName(), "String");
 
         assertTrue(passed);
 
@@ -85,7 +85,7 @@ public class LuggageSlipTest extends TestTemplate{
     @Test
     public void labelField(){
         
-        runTest("label", "private", String.class.getName(), "String");
+        runFieldTest(testClass,"label", "private", String.class.getName(), "String");
 
         assertTrue(passed);
 
@@ -125,38 +125,43 @@ public class LuggageSlipTest extends TestTemplate{
         results.add(new Feedback(className,"Constructor", mark, response));
 
         assertEquals(expectedConstructor, constructors[0].toGenericString());
+
         assertTrue(passed);
-
-
     }
 
-    private void runTest(String fName, String mod,String typeJ,String typeN){
+    @Test
+    public void testOverloadedConstrctor() throws IllegalArgumentException, IllegalAccessException{
 
-        fieldName = fName;
-        modifier = mod;
-        typeJavaName = typeJ;
-        typeName = " " + typeN + " ";
-        
-        expectedField = modifier + typeName + fieldName;
+        Constructor<?>[] constructors = testClass.getConstructors();
 
-        field = getField(fieldName);
-        
+        String expectedConstructor = "public " + testClass.getName() + "("+ Passenger.class.getName() + "," + Flight.class.getName() + "," 
+                                     + String.class.getName() + ")";
 
-        if(field != null){
-            
-            /*  Code to check constructor goes here. Constructors force initialisation so only variables that are not in the constructor should be checked
-             *  in this way ~ Z is working on this;
-             * 
-             * checkDeclaredOnly();
-             */
+        passed = true;
 
-            checkExpectedField(fieldName, expectedField);
+        field = getField("owner");
+        checkSet(passenger, luggageSlip);
 
-        }
+        field = getField("label");
+        checkSet("xyz", luggageSlip);
+
+        field = getField("luggageSlipIDCounter");
+
+        checkSet(2, luggageSlip);
+
+        field = getField("luggaeSlipID");
+        checkSet(flight.getFlightNo() + "_" + passenger.getLastName() + "_" + "1", luggageSlip);
+
+        if(!expectedConstructor.equals(constructors[0].toGenericString()) && !expectedConstructor.equals(constructors[1].toGenericString()))
+            response += "Expected Constructor: public Passenger(String passportNumber, String firstName, String lastName, String flightNo)\n";
         else
-            response += "Incorrect. Expected field: " + expectedField + "\n";
+            response += "Correct Constructor";
 
-        System.out.println(response);
+        results.add(new Feedback(className,"Constructor", mark, response));
+
+        assertEquals(expectedConstructor, constructors[0].toGenericString());
+
+        assertTrue(passed);
     }
 
     private void checkSet(Object expectedValue, Object thisClass){
