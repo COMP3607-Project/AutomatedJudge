@@ -1,6 +1,7 @@
 package comp3607project;
 
 import org.junit.*;
+import org.junit.runner.JUnitCore;
 import static org.junit.Assert.*;
 import java.lang.reflect.*;
 import java.util.ArrayList;
@@ -26,7 +27,11 @@ public abstract class TestTemplate extends Exception{
 
     //temporary arraylist for storing feedback. should be in the class that generates the pdf
     protected ArrayList<Feedback> results = new ArrayList<Feedback>();
-
+    
+    public void runTests(){
+        Class[] testClasses = {ClassTestSuite.class};
+        JUnitCore.runClasses(testClasses);
+    }
 
     protected void runFieldTest(Class<?> testClass, String fName, String mod,String typeJ,String typeN){
 

@@ -14,5 +14,5 @@ public class LuggageManagementSystemTest extends TestTemplate {
         testClass = LuggageManagementSystem.class;
     }
 
-    checkMethod("main", void)
+    LuggageManagementSystem.main(null);
 }
