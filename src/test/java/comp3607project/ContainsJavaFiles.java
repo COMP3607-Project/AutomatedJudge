@@ -10,7 +10,7 @@ public class ContainsJavaFiles {
     @Test
     public void testFileFormat() throws IOException {
         // Unzipped student folder
-        String destDirectory = "src/resources/asg2";
+        String destDirectory = "src/resources/StudentFiles";
         File[] studentFolders = new File(destDirectory).listFiles();
 
         // Ensure the folder is not empty
