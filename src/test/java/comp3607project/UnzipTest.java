@@ -11,8 +11,8 @@ public class UnzipTest {
     @Test
     public void testUnzipFile() throws IOException {
         // Paths must have '\\' instead of '\'
-        String zipFilePath = "path/file.zip"; 
-        String destDirectory = "path/to/destination/folder";
+        String zipFilePath = "src/resources/CWE1 Sample papers.zip"; 
+        String destDirectory = "src/resources/Project";
         UnzipUtility unzipper = new UnzipUtility();
 
         // Method to unzip folder in UnzipUtility class
