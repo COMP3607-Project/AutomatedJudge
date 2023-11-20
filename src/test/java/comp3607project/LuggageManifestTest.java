@@ -49,8 +49,7 @@ public class LuggageManifestTest extends TestTemplate{
 
     @Test 
     public void testAddLuggage() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException{
-        checkMethod("addLuggage", "String", "String", "Passenger, Flight", (Class<?>[])(Passenger, Flight));
-
+        checkMethod("addLuggage", "String", "String", "Passenger, Flight", Passenger.class, Flight.class);
         Passenger p = new Passenger("TA890789", "Joe", "Bean", "POS123");
         Flight f = new Flight("POS123", "JFK", "POS", LocalDateTime.of(2023, 1, 23, 10, 00, 00));
         String details = "";
@@ -96,16 +95,19 @@ public class LuggageManifestTest extends TestTemplate{
             details = p.toString() + " \nNo Luggage to add \n";
         
 
-        passed = luggageManifest1.addLuggage(p, f).strip().toLowerCase().replaceAll(" ","").contains(details.replaceAll(" ","").toLowerCase().strip());
-        if(passed){
-            if(numLuggageValue > 0)
-                passed = numLuggageValue == slipsValue.size()/2;
-            else
-                passed = numLuggageValue == slipsValue.size();
+        if (passed){
+            passed = luggageManifest1.addLuggage(p, f).strip().toLowerCase().replaceAll(" ","").contains(details.replaceAll(" ","").toLowerCase().strip());
+            if(passed){
+                if(numLuggageValue > 0)
+                    passed = numLuggageValue == slipsValue.size()/2;
+                else
+                    passed = numLuggageValue == slipsValue.size();
+            }
         }
 
         if(!passed)
             passedTestsMark--;
+
         mark = passed ? 6 : 0;
         response = passed ? "Correct functionality displayed for adding luggage.": "Incorrect functionality displayed for adding luggage.";
         results.add(new Feedback("LuggageManifest", "addLuggage Method", mark, response));
@@ -152,6 +154,8 @@ public class LuggageManifestTest extends TestTemplate{
 
     @Test 
     public void testGetExcessLuggageCostByPassenger() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+        checkMethod("getExcessLuggageCostByPassenger", "String", "String", "String", String.class);
+        
         Passenger p = new Passenger("TA890789", "Joe", "Bean", "POS123"); 
         Flight f = new Flight("POS123", "JFK", "POS", LocalDateTime.of(2023, 1, 23, 10, 00, 00));
         luggageManifest1.addLuggage(p, f);
@@ -176,11 +180,13 @@ public class LuggageManifestTest extends TestTemplate{
                 costDetails = labelValue;
             }
         }
-        
+        System.out.println(passed);
         if(costDetails.equals("0.00") || costDetails.equals(""))
             costDetails =  "No Cost";
-
-        passed = luggageManifest1.getExcessLuggageCostByPassenger(passportNoValue).strip().replaceAll(" ","").toLowerCase().contains(costDetails.replaceAll(" ","").toLowerCase().strip());
+        if(passed)
+            passed = luggageManifest1.getExcessLuggageCostByPassenger(passportNoValue).strip().replaceAll(" ","").toLowerCase().contains(costDetails.replaceAll(" ","").toLowerCase().strip());
+        
+        System.out.println(passed);
         if(!passed)
             passedTestsMark--;
         
@@ -190,7 +196,7 @@ public class LuggageManifestTest extends TestTemplate{
         
         System.out.println(luggageManifest1.getExcessLuggageCostByPassenger(passportNoValue));
         System.out.println(costDetails);
-        assertTrue(luggageManifest1.getExcessLuggageCostByPassenger(passportNoValue).strip().replaceAll(" ","").toLowerCase().contains(costDetails.replaceAll(" ","").toLowerCase().strip()));
+        assertTrue(passed);
     }
 
     @Test 
@@ -219,7 +225,7 @@ public class LuggageManifestTest extends TestTemplate{
             results.add(new Feedback("LuggageManifest", "toString method", mark, response));
             System.out.println(details);
             System.out.println(luggageManifest1.toString());
-            assertTrue(luggageManifest1.toString().strip().replaceAll(" ","").toLowerCase().contains(details.replaceAll(" ","").toLowerCase().strip()));
+            assertTrue(passed);
         }else{
             passed = true;
             mark = passed ? 1 : 0;

@@ -124,7 +124,7 @@ public abstract class TestTemplate extends Exception{
         }
 
         String errorMessage = "Expected Method Return Type: " + normalReturnType + "\nExpected Method: " + methodName + "(" + normalParaTypes +")\n";
-        
+        System.out.println(errorMessage);
         try {
             testMethod = testClass.getDeclaredMethod(methodName, classSum);
 
