@@ -2,7 +2,7 @@ package comp3607project;
 
 import java.io.File;
 import java.io.IOException;
-
+ 
 public class Folder implements Container{
     private File unzipFilePath;
     private UnzipUtility uz = new UnzipUtility();
@@ -25,6 +25,10 @@ public class Folder implements Container{
     // Stores a collection of the file objects within directory
     public void loadContents() {
         foldercontents = getUZFilePath().listFiles(); 
+    }
+
+    public File[] getContents() {
+        return foldercontents;
     }
 
     @Override
