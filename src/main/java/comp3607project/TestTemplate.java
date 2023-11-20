@@ -21,6 +21,9 @@ public abstract class TestTemplate extends Exception{
     protected String expectedField;
     protected Class<?> testClass;
 
+    protected static int cleanCodeMark = 5;
+    protected static int passedTestsMark = 14;
+
     //temporary arraylist for storing feedback. should be in the class that generates the pdf
     protected ArrayList<Feedback> results = new ArrayList<Feedback>();
 
@@ -47,8 +50,10 @@ public abstract class TestTemplate extends Exception{
             checkExpectedField(fieldName, expectedField);
 
         }
-        else
+        else{
             response += "Incorrect. Expected field: " + expectedField + "\n";
+            cleanCodeMark--;
+        }
 
     }
 
@@ -87,7 +92,6 @@ public abstract class TestTemplate extends Exception{
     }
 
     protected void checkExpectedField(String fieldName, String expectedField){
-
         String isExpectedField = field.toString();
 
         passed = isExpectedField.contains(modifier + " " + typeJavaName);
@@ -98,6 +102,50 @@ public abstract class TestTemplate extends Exception{
         }
         else
             response += "Incorrect. Expected field: " + expectedField + ".\n";
+    }
+
+    protected void checkMethod(String methodName, String genericReturnType, String normalReturnType, String normalParaTypes, Class<?>... classSum){
+
+        Method testMethod = null;
+        
+        if(normalParaTypes == null)
+            normalParaTypes = "";
+
+        String javaTypes = "";
+
+        if(classSum != null){
+            for(Class<?> c: classSum)
+                javaTypes += c.getName() + ",";
+
+            javaTypes = javaTypes.substring(0, javaTypes.length() - 1);
+        }
+
+        String errorMessage = "Expected Method Return Type: " + normalReturnType + "\nExpected Method: " + methodName + "(" + normalParaTypes +")\n";
+        
+        try {
+            testMethod = testClass.getDeclaredMethod(methodName, classSum);
+
+
+                if(testMethod.getReturnType().getName().equals(genericReturnType)){
+
+                    passed = true;
+                    
+                    if(testMethod.toString().contains("." + methodName + "(" + javaTypes + ")"))
+                        response += "Correct method\n";
+                    else{
+                        response += errorMessage;
+                        passed = false;
+                    }
+
+                }
+                else
+                    response += errorMessage;
+        }
+        catch(Exception e)
+        {
+            passed = false;
+        }
+
     }
 }
              

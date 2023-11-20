@@ -1,4 +1,5 @@
 package comp3607project;
+
 import java.util.ArrayList;
 
 public class LuggageManifest
