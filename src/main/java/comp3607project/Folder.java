@@ -11,6 +11,7 @@ public class Folder implements Container{
     public Folder(String zipFilePath, String destDirectory) throws IOException{ 
         uz.unzip(zipFilePath, destDirectory);
         setFilePath();
+        loadContents();
     }
 
     public void setFilePath() {
