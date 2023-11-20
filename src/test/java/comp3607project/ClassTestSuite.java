@@ -4,6 +4,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+  LuggageManagementSystemTest.class,
   PassengerTest.class,
   LuggageSlipTest.class,
   LuggageManifestTest.class,
