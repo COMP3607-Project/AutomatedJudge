@@ -1,6 +1,5 @@
 comp3607project/Folder$1.class
 comp3607project/ReportHeader.class
-comp3607project/FileCompilationChecker.class
 comp3607project/UnzipUtility.class
 comp3607project/Folder.class
 comp3607project/Iterator.class
@@ -10,8 +9,6 @@ comp3607project/Container.class
 comp3607project/Feedback.class
 comp3607project/Passenger.class
 comp3607project/FeedbackReport.class
-comp3607project/LuggageManagementSystem.class
 comp3607project/LuggageManifest.class
 comp3607project/Folder$FolderIterator.class
 comp3607project/App.class
-comp3607project/ReportContent.class
