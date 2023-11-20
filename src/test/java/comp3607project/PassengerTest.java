@@ -3,7 +3,6 @@ package comp3607project;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 
@@ -37,11 +36,12 @@ public class PassengerTest extends TestTemplate{
         if(passed)
             mark += 1;
 
-        results.add(new Feedback(className,"passportNumber Field", mark, response));
+        ReportContent.addFeedback(new Feedback(className,"passportNumber Field", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
             
         assertTrue(passed);
-
-
         
     }
 
@@ -53,8 +53,11 @@ public class PassengerTest extends TestTemplate{
         if(passed)
             mark += 1;
         
-        results.add(new Feedback(className,"flightNo Field", mark, response));
+        ReportContent.addFeedback(new Feedback(className,"flightNo Field", mark, response));
         
+        if(!passed)
+            passedTestsMark--;
+
         assertTrue(passed);
 
     }
@@ -67,10 +70,12 @@ public class PassengerTest extends TestTemplate{
         if(passed)
             mark += 1;
         
-        results.add(new Feedback(className,"firstName Field", mark, response));
+        ReportContent.addFeedback(new Feedback(className,"firstName Field", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
 
         assertTrue(passed);
-
 
     }
 
@@ -82,7 +87,10 @@ public class PassengerTest extends TestTemplate{
         if(passed)
             mark += 1;
         
-        results.add(new Feedback(className,"lastName Field", mark, response));
+        ReportContent.addFeedback(new Feedback(className,"lastName Field", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
 
         assertTrue(passed);
 
@@ -96,8 +104,11 @@ public class PassengerTest extends TestTemplate{
         if(passed)
             mark += 1;
          
-        results.add(new Feedback(className,"numLuggage Field", mark, response));
+        ReportContent.addFeedback(new Feedback(className,"numLuggage Field", mark, response));
         
+        if(!passed)
+            passedTestsMark--;
+
         assertTrue(passed);
 
     }
@@ -110,11 +121,12 @@ public class PassengerTest extends TestTemplate{
         if(passed)
             mark += 1;
          
-        results.add(new Feedback(className,"cabinClass Field", mark, response));
+        ReportContent.addFeedback(new Feedback(className,"cabinClass Field", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
 
         assertTrue(passed);
-
-        mark += 1;
 
     }
 
@@ -158,7 +170,10 @@ public class PassengerTest extends TestTemplate{
         if(expectedConstructor.equals(constructors[0].toGenericString()))   
             mark += 2;
 
-        results.add(new Feedback(className,"Constructor", mark, response));
+        ReportContent.addFeedback(new Feedback(className,"Constructor", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
 
         assertEquals(expectedConstructor, constructors[0].toGenericString());
         assertTrue(passed);
@@ -225,7 +240,10 @@ public class PassengerTest extends TestTemplate{
         if(passed)
             mark += 2;
 
-        results.add(new Feedback(className,"assignRandomCabinClass Method", mark, response));
+        ReportContent.addFeedback(new Feedback(className,"assignRandomCabinClass Method", mark, response));
+
+        if(!passed)
+            passedTestsMark--;
 
         assertTrue(passed);
   
@@ -261,8 +279,11 @@ public class PassengerTest extends TestTemplate{
         mark = passed ? 3 : 0;
         response = passed ? "Correct format": "Incorrect format";
         
-        results.add(new Feedback("Passenger", "toString Method", mark, response));
+        ReportContent.addFeedback(new Feedback("Passenger", "toString Method", mark, response));
         
+        if(!passed)
+            passedTestsMark--;
+
         assertEquals(expectedToString, actualToString);
         assertTrue(passed);
 

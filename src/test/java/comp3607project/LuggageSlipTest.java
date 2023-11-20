@@ -43,6 +43,7 @@ public class LuggageSlipTest extends TestTemplate{
         declaredOnly = false;
         passed = false;
         field = null;
+        testClass = LuggageSlip.class;
     }
 
     @Test
