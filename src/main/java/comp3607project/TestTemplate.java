@@ -135,6 +135,7 @@ public abstract class TestTemplate extends Exception{
                     else{
                         response += errorMessage;
                         passed = false;
+                        cleanCodeMark--;
                     }
 
                 }
@@ -144,6 +145,7 @@ public abstract class TestTemplate extends Exception{
         catch(Exception e)
         {
             passed = false;
+            cleanCodeMark--;
         }
 
     }

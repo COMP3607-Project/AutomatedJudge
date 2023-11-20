@@ -27,7 +27,7 @@ public class LuggageManifestTest extends TestTemplate{
         if(!passed)
             passedTestsMark--;        
         mark = passed ? 2 : 0;
-        results.add(new Feedback("LuggageManifest", "slips Attribute", mark, response));
+        ReportContent.addFeedback(new Feedback("LuggageManifest", "slips Attribute", mark, response));
         assertTrue(passed);
     }
 
@@ -43,13 +43,14 @@ public class LuggageManifestTest extends TestTemplate{
             passedTestsMark--;
         mark = passed ? 1 : 0;
         response = passed ? "Correct initialization": "Incorrect initialization";
-        results.add(new Feedback("LuggageManifest", "Constructor", mark, response));
-        assertTrue(slipsValue instanceof ArrayList);
+        ReportContent.addFeedback(new Feedback("LuggageManifest", "Constructor", mark, response));
+        assertTrue(passed);
     }
 
     @Test 
     public void testAddLuggage() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException{
-        checkMethod("addLuggage", "String", "String", "Passenger, Flight", Passenger.class, Flight.class);
+        checkMethod("addLuggage", String.class.getName(), "String", "Passenger, Flight", Passenger.class, Flight.class);
+        
         Passenger p = new Passenger("TA890789", "Joe", "Bean", "POS123");
         Flight f = new Flight("POS123", "JFK", "POS", LocalDateTime.of(2023, 1, 23, 10, 00, 00));
         String details = "";
@@ -94,9 +95,9 @@ public class LuggageManifestTest extends TestTemplate{
         } else 
             details = p.toString() + " \nNo Luggage to add \n";
         
-
         if (passed){
             passed = luggageManifest1.addLuggage(p, f).strip().toLowerCase().replaceAll(" ","").contains(details.replaceAll(" ","").toLowerCase().strip());
+
             if(passed){
                 if(numLuggageValue > 0)
                     passed = numLuggageValue == slipsValue.size()/2;
@@ -110,51 +111,34 @@ public class LuggageManifestTest extends TestTemplate{
 
         mark = passed ? 6 : 0;
         response = passed ? "Correct functionality displayed for adding luggage.": "Incorrect functionality displayed for adding luggage.";
-        results.add(new Feedback("LuggageManifest", "addLuggage Method", mark, response));
+        ReportContent.addFeedback(new Feedback("LuggageManifest", "addLuggage Method", mark, response));
 
-        for (Object obj : slipsValue){
-            LuggageSlip l = (LuggageSlip) obj;
+        assertTrue(passed);
 
-            Field label = LuggageSlip.class.getDeclaredField("label");
-            label.setAccessible(true);
-            String labelValue = (String) label.get(l);
-
-            if(l.hasOwner(passportValue)){
-                if(excessCost == 0.0 && labelValue.equals(""))
-                    assertEquals("",labelValue);
-                else
-                   assertEquals(String.format("%.2f", excessCost), labelValue);
-            }
-        }
-
-        assertTrue(luggageManifest1.addLuggage(p, f).strip().toLowerCase().replaceAll(" ","").contains(details.replaceAll(" ","").toLowerCase().strip()));
-        if(numLuggageValue > 0)
-            assertEquals(numLuggageValue, slipsValue.size()/3);
-        else
-            assertEquals(numLuggageValue, slipsValue.size());
     }
 
     @Test
     public void testGetExcessLuggageCost(){
-        passed = (70.00 == luggageManifest1.getExcessLuggageCost(4,2)) &&
-            (0.00 == luggageManifest1.getExcessLuggageCost(2,2)) &&
-            (35.00 == luggageManifest1.getExcessLuggageCost(3,2));
+        checkMethod("getExcessLuggageCost", double.class.getName(), "double", "int, int", int.class, int.class);
+        
+        if (passed)
+            passed = (70.00 == luggageManifest1.getExcessLuggageCost(4,2)) &&
+                (0.00 == luggageManifest1.getExcessLuggageCost(2,2)) &&
+                (35.00 == luggageManifest1.getExcessLuggageCost(3,2));
         
         if(!passed)
             passedTestsMark--;
 
         mark = passed ? 1 : 0;
         response = passed ? "Correct calculation of excess cost displayed.": "Incorrect calculation of excess cost displayed.";
-        results.add(new Feedback("LuggageManifest", "getExcessLuggageCost Method", mark, response));
+        ReportContent.addFeedback(new Feedback("LuggageManifest", "getExcessLuggageCost Method", mark, response));
     
-        assertEquals(70.00, luggageManifest1.getExcessLuggageCost(4,2),0.0);
-        assertEquals(0.00, luggageManifest1.getExcessLuggageCost(2,2),0.0);
-        assertEquals(35.00, luggageManifest1.getExcessLuggageCost(3,2),0.0);
+        assertTrue(passed);
     }
 
     @Test 
     public void testGetExcessLuggageCostByPassenger() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
-        checkMethod("getExcessLuggageCostByPassenger", "String", "String", "String", String.class);
+        checkMethod("getExcessLuggageCostByPassenger", String.class.getName(), "String", "String", String.class);
         
         Passenger p = new Passenger("TA890789", "Joe", "Bean", "POS123"); 
         Flight f = new Flight("POS123", "JFK", "POS", LocalDateTime.of(2023, 1, 23, 10, 00, 00));
@@ -180,22 +164,19 @@ public class LuggageManifestTest extends TestTemplate{
                 costDetails = labelValue;
             }
         }
-        System.out.println(passed);
+        
         if(costDetails.equals("0.00") || costDetails.equals(""))
             costDetails =  "No Cost";
         if(passed)
             passed = luggageManifest1.getExcessLuggageCostByPassenger(passportNoValue).strip().replaceAll(" ","").toLowerCase().contains(costDetails.replaceAll(" ","").toLowerCase().strip());
         
-        System.out.println(passed);
+        
         if(!passed)
             passedTestsMark--;
         
         mark = passed ? 5: 0;
         response = passed ? "Correct cost of excess luggage returned for passenger.": "Incorrect cost of excess luggage returned for passenger.";
-        results.add(new Feedback("LuggageManifest", "getExcessLuggageCostByPassenger Method", mark, response)); 
-        
-        System.out.println(luggageManifest1.getExcessLuggageCostByPassenger(passportNoValue));
-        System.out.println(costDetails);
+        ReportContent.addFeedback(new Feedback("LuggageManifest", "getExcessLuggageCostByPassenger Method", mark, response)); 
         assertTrue(passed);
     }
 
@@ -222,15 +203,14 @@ public class LuggageManifestTest extends TestTemplate{
             
             mark = passed ? 1 : 0;
             response = passed ? "Correct format": "Incorrect format";
-            results.add(new Feedback("LuggageManifest", "toString method", mark, response));
-            System.out.println(details);
-            System.out.println(luggageManifest1.toString());
+            ReportContent.addFeedback(new Feedback("LuggageManifest", "toString method", mark, response));
+
             assertTrue(passed);
         }else{
             passed = true;
             mark = passed ? 1 : 0;
             response = passed ? "Correct format": "Incorrect format";
-            results.add(new Feedback("LuggageManifest", "toString method", mark, response));
+            ReportContent.addFeedback(new Feedback("LuggageManifest", "toString method", mark, response));
         }
     }
 }

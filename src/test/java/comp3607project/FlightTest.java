@@ -23,7 +23,7 @@ public class FlightTest extends TestTemplate{
     public void testFlightNo(){
         runFieldTest(testClass, "flightNo", "private", String.class.getName(), "String");
         mark = passed ? 1 : 0;
-        results.add(new Feedback("Flight", "flightNo Attribute", mark, response));
+        ReportContent.addFeedback(new Feedback("Flight", "flightNo Attribute", mark, response));
 
         if(!passed)
             passedTestsMark--;
@@ -37,7 +37,7 @@ public class FlightTest extends TestTemplate{
             passedTestsMark--; 
 
         mark = passed ? 1 : 0;
-        results.add(new Feedback("Flight", "destination Attribute", mark, response));
+        ReportContent.addFeedback(new Feedback("Flight", "destination Attribute", mark, response));
         assertTrue(passed);
     }
 
@@ -47,7 +47,7 @@ public class FlightTest extends TestTemplate{
         if(!passed)
             passedTestsMark--;
         mark = passed ? 1 : 0;
-        results.add(new Feedback("Flight", "origin Attribute", mark, response));
+        ReportContent.addFeedback(new Feedback("Flight", "origin Attribute", mark, response));
         assertTrue(passed);
     }
 
@@ -57,7 +57,7 @@ public class FlightTest extends TestTemplate{
         if(!passed)
             passedTestsMark--;
         mark = passed ? 1 : 0;
-        results.add(new Feedback("Flight", "flightDate Attribute", mark, response));
+        ReportContent.addFeedback(new Feedback("Flight", "flightDate Attribute", mark, response));
         assertTrue(passed);
     }
 
@@ -67,7 +67,7 @@ public class FlightTest extends TestTemplate{
         if(!passed)
             passedTestsMark--;
         mark = passed ? 1 : 0;
-        results.add(new Feedback("Flight", "manifest Attribute", mark, response));
+        ReportContent.addFeedback(new Feedback("Flight", "manifest Attribute", mark, response));
         assertTrue(passed);
     }
 
@@ -100,17 +100,15 @@ public class FlightTest extends TestTemplate{
             passedTestsMark--;
         mark = passed ? 2: 0;
         response = passed ? "Correct initialization of attributes.": "Incorrect initialization of attributes.";
-        results.add(new Feedback("Flight", "toString method", mark, response));
+        ReportContent.addFeedback(new Feedback("Flight", "toString method", mark, response));
 
-        assertEquals("POS123",flightNoValue);
-        assertEquals("JFK",destinationValue);
-        assertEquals("POS",originValue);
-        assertEquals(LocalDateTime.of(2023, 1, 23, 10, 00, 00), flightDateValue);
-        assertTrue(manifestValue instanceof LuggageManifest);
+        assertTrue(passed);
     }
 
     @Test 
     public void testCheckInLuggage() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+        checkMethod("checkInLuggage", String.class.getName(), "String", "Passenger", Passenger.class);
+        
         Passenger p = new Passenger("TA890789", "Joe", "Bean", "POS1234");
         String details = "";
 
@@ -124,26 +122,27 @@ public class FlightTest extends TestTemplate{
         String fFlightValue = (String) fFlightNo.get(flight1);
         LuggageManifest fManifestValue = (LuggageManifest) fManifest.get(flight1);
 
-        if(pFlightValue.equals(fFlightValue)){
-            details = fManifestValue.addLuggage(p, flight1);
-            passed =  flight1.checkInLuggage(p).strip().replaceAll(" ","").toLowerCase().contains(details.strip().toLowerCase().replaceAll(" ",""));
-        }else
-            passed = flight1.checkInLuggage(p).strip().replaceAll(" ","").toLowerCase().contains("invalid flight".replaceAll(" ",""));
+        if (passed){
+            if(pFlightValue.equals(fFlightValue)){
+                details = fManifestValue.addLuggage(p, flight1);
+                passed =  flight1.checkInLuggage(p).strip().replaceAll(" ","").toLowerCase().contains(details.strip().toLowerCase().replaceAll(" ",""));
+            }else
+                passed = flight1.checkInLuggage(p).strip().replaceAll(" ","").toLowerCase().contains("invalid flight".replaceAll(" ",""));
+        }
 
         if(!passed)
             passedTestsMark--;
         mark = passed ? 5: 0;
         response = passed ? "Correct functionality displayed for checking in luggage.": "Incorrect functionality displayed for checking in luggage.";
         
-        results.add(new Feedback("Flight", "checkInLuggage method", mark, response));
-        if (pFlightValue.equals(fFlightValue))
-            assertTrue(flight1.checkInLuggage(p).strip().replaceAll(" ","").toLowerCase().contains(details.strip().replaceAll(" ","").toLowerCase()));
-        else
-            assertTrue(flight1.checkInLuggage(p).strip().replaceAll(" ","").toLowerCase().contains("invalid flight".replaceAll(" ","")));
+        ReportContent.addFeedback(new Feedback("Flight", "checkInLuggage method", mark, response));
+        assertTrue(passed);
     }
 
     @Test 
     public void testPrintLuggageManifest() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException{
+        checkMethod("printLuggageManifest", String.class.getName(), "String", null, (Class<?>[]) null);
+        
         Passenger p = new Passenger("TA890789", "Joe", "Bean", "POS123");
         flight1.checkInLuggage(p);
 
@@ -151,19 +150,22 @@ public class FlightTest extends TestTemplate{
         field.setAccessible(true);
         LuggageManifest manifestValue = (LuggageManifest)field.get(flight1);
 
-        passed = flight1.printLuggageManifest().strip().replaceAll(" ","").toLowerCase().contains(manifestValue.toString().replaceAll(" ","").toLowerCase().strip());
+        if(passed)
+            passed = flight1.printLuggageManifest().strip().replaceAll(" ","").toLowerCase().contains(manifestValue.toString().replaceAll(" ","").toLowerCase().strip());
         
         if(!passed)
             passedTestsMark--;
         mark = passed ? 1: 0;
         response = passed ? "Correct respresentation of flight manifest": "Incorrect respresentation of flight manifest";         
 
-        results.add(new Feedback("Flight", "printLuggageManifest method", mark, response));
-        assertTrue(flight1.printLuggageManifest().strip().replaceAll(" ","").toLowerCase().contains(manifestValue.toString().replaceAll(" ","").toLowerCase().strip()));
+        ReportContent.addFeedback(new Feedback("Flight", "printLuggageManifest method", mark, response));
+        assertTrue(passed);
     }
 
     @Test 
     public void testGetAllowedLuggage(){
+        checkMethod("getAllowedLuggage", int.class.getName(), "int", "char", char.class);
+        
         Method allowedLuggage = null;
         try{
             allowedLuggage = Flight.class.getDeclaredMethod("getAllowedLuggage", char.class);
@@ -171,24 +173,21 @@ public class FlightTest extends TestTemplate{
         }catch(NoSuchMethodException e){
             passed = false;
         }
-
-        passed = allowedLuggage.toGenericString().contains(" static ") &&
-         (3==Flight.getAllowedLuggage('F')) &&
-         (2==Flight.getAllowedLuggage('B')) &&
-         (1==Flight.getAllowedLuggage('P')) &&
-         (0==Flight.getAllowedLuggage('E'));
+        
+        if(passed)
+            passed = allowedLuggage.toGenericString().contains(" static ") &&
+            (3==Flight.getAllowedLuggage('F')) &&
+            (2==Flight.getAllowedLuggage('B')) &&
+            (1==Flight.getAllowedLuggage('P')) &&
+            (0==Flight.getAllowedLuggage('E'));
         
         if(!passed)
             passedTestsMark--;
         mark = passed ? 2: 0;
         response = passed ? "Correct assignment of luggage pieces": "Incorrect assignment of luggage pieces";
-        results.add(new Feedback("Flight", "getAllowedLuggage method", mark, response));
+        ReportContent.addFeedback(new Feedback("Flight", "getAllowedLuggage method", mark, response));
 
-        assertTrue(allowedLuggage.toGenericString().contains(" static "));
-        assertEquals(3, Flight.getAllowedLuggage('F'));
-        assertEquals(2, Flight.getAllowedLuggage('B'));
-        assertEquals(1, Flight.getAllowedLuggage('P'));
-        assertEquals(0, Flight.getAllowedLuggage('E'));
+        assertTrue(passed);
     }
 
     @Test 
@@ -199,7 +198,7 @@ public class FlightTest extends TestTemplate{
             passedTestsMark--;
         mark = passed ? 1: 0;
         response = passed ? "Correct format": "Incorrect format";
-        results.add(new Feedback("Flight", "toString method", mark, response));
-        assertTrue(flight1.toString().strip().replaceAll(" ","").toLowerCase().contains("POS123 DESTINATION: JFK ORIGIN: POS 2023-01-23T10:00".replaceAll(" ","").toLowerCase()));
+        ReportContent.addFeedback(new Feedback("Flight", "toString method", mark, response));
+        assertTrue(passed);
     }
 }
