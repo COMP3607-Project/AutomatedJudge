@@ -14,7 +14,7 @@ public abstract class TestTemplate extends Exception{
     protected String typeJavaName;
     protected String typeName;
     protected String modifier;
-    String className;
+    protected String className;
     protected Field field;
     protected Object value;
     protected Passenger passenger;
@@ -24,9 +24,6 @@ public abstract class TestTemplate extends Exception{
 
     protected static int cleanCodeMark = 5;
     protected static int passedTestsMark = 14;
-
-    //temporary arraylist for storing feedback. should be in the class that generates the pdf
-    protected ArrayList<Feedback> results = new ArrayList<Feedback>();
     
     public void runTests(){
         Class<?>[] testClasses = {ClassTestSuite.class};
