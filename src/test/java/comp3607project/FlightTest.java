@@ -1,9 +1,14 @@
 package comp3607project;
 
-import static org.junit.Assert.*;
-import org.junit.*;
-import java.lang.reflect.*;
+
+import static org.junit.Assert.assertTrue;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class FlightTest extends TestTemplate{
     private Flight flight1;

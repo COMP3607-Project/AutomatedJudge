@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +16,7 @@ public class PassengerTest extends TestTemplate{
     }
 
     @Before
-    public void initPassengerTest() {
+    public void init() {
         
         response = "";
         mark = 0;
@@ -63,7 +61,7 @@ public class PassengerTest extends TestTemplate{
     }
 
     @Test
-    public void testfirstNameField(){
+    public void testFirstNameField(){
         
         runFieldTest(testClass, "firstName", "private", String.class.getName(), "String");
 
@@ -80,7 +78,7 @@ public class PassengerTest extends TestTemplate{
     }
 
     @Test
-    public void testlastNameField(){
+    public void testLastNameField(){
         
         runFieldTest(testClass,"lastName", "private", String.class.getName(), "String");
 
@@ -277,7 +275,7 @@ public class PassengerTest extends TestTemplate{
         
         passed = actualToString.contains(expectedToString);     
         mark = passed ? 3 : 0;
-        response = passed ? "Correct format": "Incorrect format";
+        response = passed ? "Correct format": "Incorrect format. Please verify with rubric.";
         
         ReportContent.addFeedback(new Feedback("Passenger", "toString Method", mark, response));
         
@@ -289,6 +287,9 @@ public class PassengerTest extends TestTemplate{
 
     }
 
+    
+    
+    //methods
     private void checkRandom(String fieldName){
 
         ArrayList<Passenger> passengers = new ArrayList<>();

@@ -1,9 +1,10 @@
 package comp3607project;
 
-import org.junit.*;
+
 import org.junit.runner.JUnitCore;
-import static org.junit.Assert.*;
-import java.lang.reflect.*;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public abstract class TestTemplate extends Exception{
@@ -24,18 +25,13 @@ public abstract class TestTemplate extends Exception{
 
     protected static int cleanCodeMark = 5;
     protected static int passedTestsMark = 14;
+
+    //temporary arraylist for storing feedback. should be in the class that generates the pdf
+    protected ArrayList<Feedback> results = new ArrayList<Feedback>();
     
     public void runTests(){
         Class<?>[] testClasses = {ClassTestSuite.class};
         JUnitCore.runClasses(testClasses);
-    }
-
-    public static int getCleanCodeMarks(){
-        return cleanCodeMark;
-    }
-
-    public static int getPassedTestsMark(){
-        return passedTestsMark;
     }
 
     protected void runFieldTest(Class<?> testClass, String fName, String mod,String typeJ,String typeN){
@@ -51,11 +47,6 @@ public abstract class TestTemplate extends Exception{
 
         if(field != null){
             
-            /*  Code to check constructor goes here. Constructors force initialisation so only variables that are not in the constructor should be checked
-             *  in this way ~ Z is working on this;
-             * 
-             * checkDeclaredOnly();
-             */
 
             checkExpectedField(fieldName, expectedField);
 
@@ -131,7 +122,7 @@ public abstract class TestTemplate extends Exception{
         }
 
         String errorMessage = "Expected Method Return Type: " + normalReturnType + "\nExpected Method: " + methodName + "(" + normalParaTypes +")\n";
-        System.out.println(errorMessage);
+
         try {
             testMethod = testClass.getDeclaredMethod(methodName, classSum);
 
@@ -158,6 +149,12 @@ public abstract class TestTemplate extends Exception{
             cleanCodeMark--;
         }
 
+
+
     }
+
+    //abstracts
+    public abstract void init();
+    public abstract void testToString() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException;
 }
              

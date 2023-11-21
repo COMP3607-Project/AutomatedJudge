@@ -1,8 +1,9 @@
 package comp3607project;
-import org.junit.*;
-import static org.junit.Assert.*;
 
-import java.lang.reflect.Field;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class LuggageManagementSystemTest extends TestTemplate {
     
@@ -31,4 +32,7 @@ public class LuggageManagementSystemTest extends TestTemplate {
         ReportContent.addFeedback(new Feedback("LuggageManagementSystem", "testSystemRun", mark, response));
         assertTrue(passed);
     }
+
+    public void testToString() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException{};
+
 }
