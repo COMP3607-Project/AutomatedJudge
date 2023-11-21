@@ -153,11 +153,11 @@ public abstract class TestTemplate extends Exception{
 
     }
 
-    private static int getPassedTestsMark(){
+    public static int getPassedTestsMark(){
         return passedTestsMark;
     }
 
-    private static int getCleanCodeMarks(){
+    public static int getCleanCodeMarks(){
         return cleanCodeMark;
     }
 
