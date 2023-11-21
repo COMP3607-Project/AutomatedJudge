@@ -38,7 +38,14 @@ public class ReportHeader {
     }
 
     public void addStudentInfo(Document document){
-        Paragraph studentInfo = new Paragraph("Student ID: " /*+ studentId*/ + "\nAssignment Number: " /*+ assignmentNumber*/ +"\nFeedback Report", bold);
+
+        String fileName = Feedback.getFileName();
+
+        String[] parts = fileName.split("_");
+        String studentId = parts[0];
+        String assignmentNumber = parts[2].replace(".zip", "").replace("A", "");
+
+        Paragraph studentInfo = new Paragraph("Student ID: " + studentId + "\nAssignment Number: " + assignmentNumber +"\nFeedback Report", bold);
         studentInfo.setAlignment(Paragraph.ALIGN_CENTER); 
         try {
             document.add(studentInfo);

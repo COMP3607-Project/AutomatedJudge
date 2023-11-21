@@ -20,7 +20,11 @@ public class FeedbackReport{
 
     public void generateDocument() {    
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("Report.pdf"));
+
+            String fileName = Feedback.getFileName();
+            fileName = fileName.replace(".zip", "");
+
+            PdfWriter.getInstance(document, new FileOutputStream(fileName+"_Report.pdf"));
             document.open();
             headers.addHeader(document);
             content.addContent(document);
