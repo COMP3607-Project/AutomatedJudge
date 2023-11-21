@@ -29,7 +29,7 @@ public abstract class TestTemplate extends Exception{
     protected ArrayList<Feedback> results = new ArrayList<Feedback>();
     
     public void runTests(){
-        Class[] testClasses = {ClassTestSuite.class};
+        Class<?>[] testClasses = {ClassTestSuite.class};
         JUnitCore.runClasses(testClasses);
     }
 
