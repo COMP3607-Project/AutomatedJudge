@@ -10,7 +10,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-
 import java.util.HashMap;
 
 public class ReportContent {
@@ -93,7 +92,7 @@ public class ReportContent {
         }
     }
 
-    public void addMarks(Document document){
+    private void addMarks(Document document){
         try {
             int totalMarks = 0;
 

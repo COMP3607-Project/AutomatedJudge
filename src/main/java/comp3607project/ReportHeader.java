@@ -37,7 +37,7 @@ public class ReportHeader {
         document.add(universityName);
     }
 
-    public void addStudentInfo(Document document){
+    private void addStudentInfo(Document document){
         String fileName = Feedback.getFileName();
         String[] parts = fileName.split("_");
 
