@@ -155,7 +155,7 @@ public class LuggageSlipTest extends TestTemplate{
         else
             response += "Correct Constructor";
 
-        results.add(new Feedback(className,"Constructor", mark, response));
+        ReportContent.addFeedback(new Feedback(className,"Constructor", mark, response));
 
         if(!passed)
             passedTestsMark--;
@@ -217,7 +217,7 @@ public class LuggageSlipTest extends TestTemplate{
         else
             response += "Correct Constructor";
 
-        results.add(new Feedback(className,"Overloaded Constructor", mark, response));
+        ReportContent.addFeedback(new Feedback(className,"Overloaded Constructor", mark, response));
 
         
         if(!track)
@@ -243,7 +243,7 @@ public class LuggageSlipTest extends TestTemplate{
         if(!passed)
             response += "Incorrect functionality\n";
 
-        results.add(new Feedback(className,"hasOwner Method", mark, response));
+        ReportContent.addFeedback(new Feedback(className,"hasOwner Method", mark, response));
 
         if(!passed)
             passedTestsMark--;
