@@ -2,7 +2,9 @@ package comp3607project;
 
 
 import org.junit.runner.JUnitCore;
-import java.lang.reflect.*;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public abstract class TestTemplate extends Exception{
