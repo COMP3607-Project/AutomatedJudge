@@ -18,6 +18,7 @@ public class FeedbackReportTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         feedbackReport = spy(new FeedbackReport(content));
+        Feedback.setFileName("816033413_JasonBalroop_A1.zip");
     }
 
     @Test

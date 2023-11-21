@@ -26,9 +26,11 @@ public class ReportContentTest {
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this) ;
+
+        Feedback.setFileName("816033413_JasonBalroop_A1.zip");
         reportContent = new ReportContent();
         feedbackList = new ArrayList<>();
-
+        
         feedbackList.add(new Feedback("Class1", "Test1", 90, "Response1"));
         feedbackList.add(new Feedback("Class2", "Test2", 85, "Response2"));
         feedbackList.add(new Feedback("Class1", "Test3", 88, "Response3"));

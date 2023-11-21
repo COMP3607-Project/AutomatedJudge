@@ -38,10 +38,13 @@ public class ReportHeader {
     }
 
     public void addStudentInfo(Document document){
-
         String fileName = Feedback.getFileName();
-
         String[] parts = fileName.split("_");
+
+        if (parts.length < 3) {
+            throw new IllegalArgumentException("File name must be in the format '<studentId>_A_<assignmentNumber>.zip'");
+        }
+
         String studentId = parts[0];
         String assignmentNumber = parts[2].replace(".zip", "").replace("A", "");
 

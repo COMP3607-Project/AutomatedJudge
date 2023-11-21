@@ -98,7 +98,7 @@ public class ReportContent {
             int totalMarks = 0;
 
             Paragraph jUnitTests = new Paragraph("Passes JUnit Tests: " + TestTemplate.getPassedTestsMark() );
-            Paragraph cleanCode = new Paragraph("Has Clean Code: " +TestTemplate.getCleanCodeMarks() );
+            Paragraph cleanCode = new Paragraph("Has Clean Code: " + TestTemplate.getCleanCodeMarks() );
 
             for (Feedback f : studentFeedback)
                 totalMarks += f.getMark();
