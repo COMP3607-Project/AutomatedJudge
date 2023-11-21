@@ -24,6 +24,11 @@ public class App
             while (itr.hasNext()) { // Unzip student folder and store in Maven project
                 Folder test = new Folder(((File) itr.next()).getAbsolutePath(), "src/resources/StudentFiles");
                 Result result = JUnitCore.runClasses(TestSuite.class);
+
+                // Update student files in folder
+                Path from = ((File) itr.next()).toPath(); //convert from File to Path
+                Path to = Paths.get("src/resources/StudentFiles"); //convert from String to Path
+                Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
             }
         }
         catch(Exception e){
