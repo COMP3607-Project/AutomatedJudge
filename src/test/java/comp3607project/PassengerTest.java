@@ -61,7 +61,7 @@ public class PassengerTest extends TestTemplate{
     }
 
     @Test
-    public void testfirstNameField(){
+    public void testFirstNameField(){
         
         runFieldTest(testClass, "firstName", "private", String.class.getName(), "String");
 
@@ -78,7 +78,7 @@ public class PassengerTest extends TestTemplate{
     }
 
     @Test
-    public void testlastNameField(){
+    public void testLastNameField(){
         
         runFieldTest(testClass,"lastName", "private", String.class.getName(), "String");
 
