@@ -153,6 +153,14 @@ public abstract class TestTemplate extends Exception{
 
     }
 
+    private static int getPassedTestsMark(){
+        return passedTestsMark;
+    }
+
+    private static int getCleanCodeMarks(){
+        return cleanCodeMark;
+    }
+
     //abstracts
     public abstract void init();
     public abstract void testToString() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException;
