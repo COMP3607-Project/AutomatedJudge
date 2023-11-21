@@ -1,26 +1,30 @@
 package comp3607project;
 
 import java.io.File;
+
+import org.junit.runner.Result;
+import org.junit.runner.JUnitCore;
 import com.itextpdf.io.exceptions.IOException;
+
+import junit.framework.TestSuite;
 
 public class App 
 {
     public static void main( String[] args ) throws IOException
     {
-        String zipFilePath = "C:\\Users\\vanes\\OneDrive - The University of the West Indies, St. Augustine\\Documents\\Year 3\\COMP 3607\\CWE1 Sample papers.zip";
-        File dest = new File(zipFilePath);
+        String zipFilePath = "src/resources/Assignment1_Java_Programs.zip";
+        String destDirectory = "src/resources/ClassFiles";
 
         try{
-            // Store folder contents in parent directory
-            Folder classFolder = new Folder(zipFilePath, dest.getParentFile().getAbsolutePath());
-
+            Folder classFolder = new Folder(zipFilePath, destDirectory);
+            
             // Use iterator pattern to process each student submission folder
             Iterator itr = classFolder.createIterator();
             
             while (itr.hasNext()) { // Unzip student folder and store in Maven project
-                Folder test = new Folder(((File) itr.next()).getAbsolutePath(), "/workspace/AutomatedJudge/src/main");
-                //runTests();
-            } 
+                Folder test = new Folder(((File) itr.next()).getAbsolutePath(), "src/resources/StudentFiles");
+                Result result = JUnitCore.runClasses(TestSuite.class);
+            }
         }
         catch(Exception e){
             System.out.println("Invalid directories submitted.");
@@ -32,20 +36,23 @@ public class App
 }
 
 
-// public class App {
-//     public static void main(String[] args) {
+/*public class App {
+     public static void main(String[] args) {
 
-//         ReportContent content = new ReportContent();
 
-//         ReportContent.addFeedback(new Feedback("Flight", "Test 1", 10, "Nice!"));
-//         ReportContent.addFeedback(new Feedback("Flight", "Test 2", 10, "Good job!"));
-//         ReportContent.addFeedback(new Feedback("Passenger", "Test 3", 10, "Well done!"));
-//         ReportContent.addFeedback(new Feedback("Passenger", "Test 4", 10, "Excellent!"));
-//         ReportContent.addFeedback(new Feedback("Luggage", "Test 5", 10, "Great!"));
-//         ReportContent.addFeedback(new Feedback("Luggage", "Test 6", 10, "Awesome!"));
+        Feedback.setFileName("816033413_JasonBalroop_A1.zip");
+
+        ReportContent content = new ReportContent();
+
+        ReportContent.addFeedback(new Feedback("Flight", "Test 1", 10, "Nice!"));
+        ReportContent.addFeedback(new Feedback("Flight", "Test 2", 10, "Good job!"));
+        ReportContent.addFeedback(new Feedback("Passenger", "Test 3", 10, "Well done!"));
+        ReportContent.addFeedback(new Feedback("Passenger", "Test 4", 10, "Excellent!"));
+        ReportContent.addFeedback(new Feedback("Luggage", "Test 5", 10, "Great!"));
+        ReportContent.addFeedback(new Feedback("Luggage", "Test 6", 10, "Awesome!"));
         
-//         FeedbackReport report = new FeedbackReport(content);
-//         report.generateDocument();
+        FeedbackReport report = new FeedbackReport(content);
+        report.generateDocument();
 
-//     }
-// }
+     }
+}*/
