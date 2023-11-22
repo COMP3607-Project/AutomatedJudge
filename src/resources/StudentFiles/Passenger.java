@@ -1,9 +1,8 @@
-import java.util.Random;
-//816033712
+//816032790, Khadisha Clarke COMP 2603 A1
 
-public class Passenger
-{
-    //instance variables
+import java.util.Random;
+public class Passenger{
+    //Attributes:
     private String passportNumber;
     private String flightNo;
     private String firstName;
@@ -11,28 +10,42 @@ public class Passenger
     private int numLuggage;
     private char cabinClass;
     
-    //constructors
-    public Passenger(String passportNumber, String firstName, String lastName,
-    String flightNo){
-        
-        this.passportNumber = passportNumber;
-        this.flightNo = flightNo;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        assignRandomPassengerLuggage();
+    //Initialize passenger object state
+    public Passenger(String passportNumber,String firstName, String lastName,String flightNo){
+        this.passportNumber=passportNumber;
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.flightNo=flightNo;
+        assignRandomNumLuggage();
         assignRandomCabinClass();
     }
     
-    //methods
+    public void assignRandomCabinClass(){
+        char[] cabinClassTypes= new char[4];
+        cabinClassTypes[0]='F';
+        cabinClassTypes[1]='B';
+        cabinClassTypes[2]='P';
+        cabinClassTypes[3]='E';
+        Random character=new Random();
+        int randCharacter=character.nextInt(4);
+        cabinClass=cabinClassTypes[randCharacter];
+    }
+    
+    public void assignRandomNumLuggage(){
+        Random amountLuggage= new Random();
+        numLuggage = amountLuggage.nextInt(4); //generates random numbers between 0-3 inclusive
+        
+    }
+    //Accessor methods:
     public String getPassportNumber(){
         return passportNumber;
     }
     
     public String getFlightNo(){
         return flightNo;
-    }   
+    }
     
-    public String getfirstName(){
+    public String getFirstName(){
         return firstName;
     }
     
@@ -48,21 +61,10 @@ public class Passenger
         return cabinClass;
     }
     
-    private void assignRandomCabinClass(){
-        String classes = "FBPE";
-        Random random = new Random();
-        cabinClass = classes.charAt(random.nextInt(4));
-    }
-    
-    private void assignRandomPassengerLuggage(){
-        Random random = new Random();
-        numLuggage = random.nextInt(4);
-    }
-    
     public String toString(){
-        String passengerInfo = "PP NO. " + passportNumber + " NAME: " + firstName.charAt(0)  
-                             + "." + lastName + " NUMLUGGAGE: " + numLuggage + " CLASS: " + cabinClass;
-        return passengerInfo;
+        String name= getFirstName();
+        char firstInitial= name.charAt(0);
+        String str="PP NO: "+ getPassportNumber() + " NAME: " + firstInitial + "." + getLastName() + " NUMLUGGAGE: " + getNumLuggage() + " CLASS: " + getCabinClass();
+        return str;
     }
-
 }

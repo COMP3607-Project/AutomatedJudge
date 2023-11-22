@@ -1,57 +1,55 @@
-//816033712
+//816032790, Khadisha Clarke COMP 2603 A1
 
 public class LuggageSlip{
-    
-    //instance variables
+    //Attributes:
     private Passenger owner;
+    private static int luggageSlipIDCounter=1;
     private String luggageSlipID;
     private String label;
     
-    //class variables
-    private static int luggageSlipIDCounter = 1;    
-    
-    //constructors
-    public LuggageSlip(Passenger p, Flight f){
-        owner = p;
-        luggageSlipID = f.getFlightNo() + "_" + owner.getLastName() + "_" + luggageSlipIDCounter;
-        label = "";
-        luggageSlipIDCounter++;
-    }
-    
-    public LuggageSlip(Passenger p, Flight f, String label){
-        owner = p;
-        luggageSlipID = f.getFlightNo() + "_" + owner.getLastName() + "_" + luggageSlipIDCounter;
-        this.label = label;
-        luggageSlipIDCounter++;
-    }
-    
-    //methods
-    public int getLuggageSlipIDCounter(){
-        return luggageSlipIDCounter;
-    }
     
     public Passenger getOwner(){
         return owner;
     }
     
-    public String getLuggageSlipID(){
-        return luggageSlipID;
+    public LuggageSlip (Passenger p, Flight f){
+        owner=p;
+        produceLuggageSlipID(p, f);
+        luggageSlipIDCounter++;
+        label="";
+    }
+    
+    public LuggageSlip (Passenger p, Flight f,String label){
+        owner=p;
+        produceLuggageSlipID(p, f);
+        luggageSlipIDCounter++;
+        this.label=label;
+        
     }
     
     public String getLabel(){
         return label;
     }
     
-    public boolean hasOwner (String passportNumber){
-        if (this.owner.getPassportNumber().equals(passportNumber))
-            return true;
+    public String getLuggageSlipID(){
+        return luggageSlipID;
+    }
+    private void produceLuggageSlipID(Passenger p, Flight f){
+        luggageSlipID=f.getFlightNo() + "_" + p.getLastName() + "_" + luggageSlipIDCounter;
         
-        return false;
+    }
+    
+    public boolean hasOwner(String passportNumber){
+        if(owner.getPassportNumber()==passportNumber)
+            return true;
+        else
+            return false;
     }
     
     public String toString(){
-        return luggageSlipID + " " + owner.toString() + " " + label;
+        Passenger owner= getOwner(); // copy of passenger object that is the owner of the luggage
+        String s= owner.toString(); // reuse of Passenger class toString method
+        String str= getLuggageSlipID() + " " + s + " " + getLabel();
+        return str;
     }
-    
-
 }
