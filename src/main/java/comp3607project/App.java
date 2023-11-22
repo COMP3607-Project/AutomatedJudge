@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import org.junit.runner.Result;
+import org.junit.internal.TextListener;
 import org.junit.runner.JUnitCore;
 import com.itextpdf.io.exceptions.IOException;
 import java.util.ArrayList;
@@ -34,12 +35,15 @@ public class App
                 ReportContent content = new ReportContent();
 
                 Folder test = new Folder(((File) itr.next()).getAbsolutePath(), "src/resources/StudentFiles");
-                Result result = JUnitCore.runClasses(TestSuite.class);
+                //Result result = JUnitCore.runClasses(TestSuite.class);
+                JUnitCore junit = new JUnitCore();
+                junit.addListener(new TextListener(System.out));
+                junit.run(ClassTestSuite.class);
 
                 // Update student files in folder
-                Path from = ((File) itr.next()).toPath(); //convert from File to Path
-                Path to = Paths.get("src/resources/StudentFiles"); //convert from String to Path
-                Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+                //Path from = ((File) itr.next()).toPath(); //convert from File to Path
+                //Path to = Paths.get("src/resources/StudentFiles"); //convert from String to Path
+                //Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
 
                 FeedbackReport report = new FeedbackReport(content);
                 report.generateDocument();
