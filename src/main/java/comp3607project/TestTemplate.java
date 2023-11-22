@@ -26,13 +26,7 @@ public abstract class TestTemplate extends Exception{
     protected static int cleanCodeMark = 5;
     protected static int passedTestsMark = 14;
 
-    //temporary arraylist for storing feedback. should be in the class that generates the pdf
-    protected ArrayList<Feedback> results = new ArrayList<Feedback>();
-    
-    public void runTests(){
-        Class<?>[] testClasses = {ClassTestSuite.class};
-        JUnitCore.runClasses(testClasses);
-    }
+
 
     protected void runFieldTest(Class<?> testClass, String fName, String mod,String typeJ,String typeN){
 
