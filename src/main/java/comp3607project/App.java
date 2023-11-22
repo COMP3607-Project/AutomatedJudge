@@ -1,7 +1,10 @@
 package comp3607project;
 
 import java.io.File;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import org.junit.runner.Result;
 import org.junit.runner.JUnitCore;
 import com.itextpdf.io.exceptions.IOException;
@@ -32,6 +35,11 @@ public class App
 
                 Folder test = new Folder(((File) itr.next()).getAbsolutePath(), "src/resources/StudentFiles");
                 Result result = JUnitCore.runClasses(TestSuite.class);
+
+                // Update student files in folder
+                Path from = ((File) itr.next()).toPath(); //convert from File to Path
+                Path to = Paths.get("src/resources/StudentFiles"); //convert from String to Path
+                Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
 
                 FeedbackReport report = new FeedbackReport(content);
                 report.generateDocument();

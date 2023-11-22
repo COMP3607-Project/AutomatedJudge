@@ -1,74 +1,77 @@
-//816032790, Khadisha Clarke COMP 2603 A1
-
 import java.time.LocalDateTime;
-public class Flight{
-    public String flightNo;
+//816033712
+
+public class Flight
+{
+    //instance variables
+    private String flightNo;
     private String destination;
     private String origin;
     private LocalDateTime flightDate;
     private LuggageManifest manifest;
     
-    //Accessors
+    //constructors
+    public Flight(String flightNo, String destination, String origin, LocalDateTime flightDate)
+    {
+        this.flightNo = flightNo;
+        this.destination = destination;
+        this.origin = origin;
+        this.flightDate = flightDate;
+        manifest = new LuggageManifest();
+    }
+
+    //methods
+    
     public String getFlightNo(){
         return flightNo;
     }
     
-        public String getDestination(){
+    public String getDestination(){
         return destination;
     }
     
-        public String getOrigin(){
+    public String getOrigin(){
         return origin;
     }
     
-        public LocalDateTime getFlightDate(){
+    public LocalDateTime getFlightDate(){
         return flightDate;
     }
     
-        public LuggageManifest getManifest(){
+    public LuggageManifest getManifest(){
         return manifest;
     }
     
-    public Flight (String flightNo, String destination, String origin, LocalDateTime flightDate){
-        this.flightNo=flightNo;
-        this.destination=destination;
-        this.origin=origin;
-        this.flightDate=flightDate;
-        manifest= new LuggageManifest();
-    }
-    
-    public String checkInLuggage(Passenger p){ //validates passenger flightNo with flight flightNo
-        String outcome="";
-        if(p.getFlightNo().equals(flightNo)){
-            outcome=manifest.addLuggage(p,this);
-            return outcome;
-        }
-        else
-            outcome="Invalid flight.";
-            
-        return outcome;
+    public String checkInLuggage(Passenger p){
+
+        if(p.getFlightNo().equals(flightNo))
+            return manifest.addLuggage(p, this);
         
+        return "Invalid flight\n";
     }
     
-    public String printLuggageManifest( ){
+    public String printLuggageManifest(){
         return manifest.toString();
     }
     
-    public static int getAllowedLuggage(char cabinClass){
-        if(cabinClass=='F')
-            return 3;
-        if(cabinClass=='B')
-            return 2; 
-        if(cabinClass=='P')
-            return 1;
-        else
-            return 0; //if cabinClass=='E'    
+    public int getAllowedLuggage(char cabinClass){
+        
+        switch(cabinClass){
+            case 'F':
+                return 3;
+            case 'B':
+                return 2;
+            case 'P':
+                return 1;
+            case 'E':
+                return 0;
+        }
+        
+        return 0;
     }
     
-    public String toString(){
-        String str="";
-        
-        str= getFlightNo() + " DESTINATION: " + getDestination() + " ORIGIN: " + getOrigin() + " " + getFlightDate();
-        return str;
+    public String toString() {
+        return flightNo + " DESTINATION: " + destination + " ORIGIN: " + origin
+               + " " + flightDate;
     }
 }
