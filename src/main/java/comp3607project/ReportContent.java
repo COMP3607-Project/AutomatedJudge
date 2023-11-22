@@ -96,6 +96,8 @@ public class ReportContent {
         try {
             int totalMarks = 0;
 
+            totalMarks += TestTemplate.getPassedTestsMark() + TestTemplate.getCleanCodeMarks();
+
             Paragraph jUnitTests = new Paragraph("Passes JUnit Tests: " + TestTemplate.getPassedTestsMark() );
             Paragraph cleanCode = new Paragraph("Has Clean Code: " + TestTemplate.getCleanCodeMarks() );
 

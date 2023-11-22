@@ -5,6 +5,8 @@ import java.io.File;
 import org.junit.runner.Result;
 import org.junit.runner.JUnitCore;
 import com.itextpdf.io.exceptions.IOException;
+import java.util.ArrayList;
+
 
 import junit.framework.TestSuite;
 
@@ -21,9 +23,18 @@ public class App
             // Use iterator pattern to process each student submission folder
             Iterator itr = classFolder.createIterator();
             
+            
             while (itr.hasNext()) { // Unzip student folder and store in Maven project
+
+                Feedback.setFileName(((File) itr.next()).getName());
+
+                ReportContent content = new ReportContent();
+
                 Folder test = new Folder(((File) itr.next()).getAbsolutePath(), "src/resources/StudentFiles");
                 Result result = JUnitCore.runClasses(TestSuite.class);
+
+                FeedbackReport report = new FeedbackReport(content);
+                report.generateDocument();
             }
         }
         catch(Exception e){
@@ -34,8 +45,6 @@ public class App
         }
     }
 }
-
-
 /*public class App {
      public static void main(String[] args) {
 
