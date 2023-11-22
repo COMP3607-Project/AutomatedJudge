@@ -1,7 +1,10 @@
 package comp3607project;
 
 import java.io.File;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import org.junit.runner.Result;
 import org.junit.runner.JUnitCore;
 import com.itextpdf.io.exceptions.IOException;

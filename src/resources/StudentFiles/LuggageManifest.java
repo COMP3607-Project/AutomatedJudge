@@ -1,74 +1,81 @@
-//816032790, Khadisha Clarke COMP 2603 A1
-
 import java.util.ArrayList;
-public class LuggageManifest {
-    private ArrayList<LuggageSlip> slips;
+//816033712
+
+public class LuggageManifest
+{
+    //instance variables
+    ArrayList<LuggageSlip> slips;
     
     public LuggageManifest(){
-      slips= new ArrayList<LuggageSlip>(); //instantiation of array list of default size 10 that can be increased
-        
+         slips = new ArrayList();
+    }
+
+    //methods
+    public ArrayList getSlips(){
+        return slips;
     }
     
     public String addLuggage(Passenger p, Flight f){
-        int allowedLuggage=f.getAllowedLuggage(p.getCabinClass());
-        double excessCost=0;
-        int count=0;
-        String label="$"; //passed as a parameter to achieve desired output
+        int allowedLuggagePieces = f.getAllowedLuggage(p.getCabinClass());
+        int numLuggage = p.getNumLuggage();     
         
-        excessCost=getExcessLuggageCost(p.getNumLuggage(), allowedLuggage);
-        label+=excessCost;
-        
-        while(count < p.getNumLuggage()){
-            if(excessCost==0)
-                slips.add(new LuggageSlip(p,f));
+        for (int i = 0; i < numLuggage; i++)
+            if(numLuggage > allowedLuggagePieces)
+                slips.add(new LuggageSlip(p, f, "$"+ String.format("%, .02f", getExcessLuggageCost(numLuggage, allowedLuggagePieces))));              
             else
-                slips.add(new LuggageSlip(p,f,label)); //label + excessCost adds the extra luggage cost as a label for each luggage of Person p
-            count++;
+                slips.add(new LuggageSlip(p, f));
+        
+        String piecesAdded;
+        
+        if(numLuggage > 0){
+            piecesAdded = "(" + numLuggage + ")";
+            return p.toString() + "\nPieces Added: " + piecesAdded + ". Excess Cost: " 
+            + getExcessLuggageCostByPassenger(p.getPassportNumber()) + "\n";
+        }
+        else{
+            piecesAdded = "No Luggage to add";
+            return p.toString() + "\n" + piecesAdded + "\n";  
         }
         
-        String output;
-        if(p.getNumLuggage()==0)
-            output=p.toString() + "\nNo Luggage to add."; //output if there is no added luggage per Person p
-        else
-            output=p.toString() + "\nPieces Added: (" + p.getNumLuggage() + "). Excess Cost: " + label; //output if there is added luggage per Person p + excess cost
+        /* alternatively as in assignment description with "Excess Cost: $0"
+        if(numLuggage > 0 && numLuggage <= allowedLuggagePieces){
+            piecesAdded = "(" + numLuggage + ")";
+            return p.toString() + "\nPieces Added: " + piecesAdded + ". Excess Cost: $0.00\n";
             
-        return output;
+        }
+        else if(numLuggage > 0){
+            piecesAdded = "(" + numLuggage + ")";
+            return p.toString() + "\nPieces Added: " + piecesAdded + ". Excess Cost: " 
+                   + getExcessLuggageCostByPassenger(p.getPassportNumber()) + "\n";
+        }
+        else{
+            piecesAdded = "No Luggage to add";
+            return p.toString() + "\n" + piecesAdded + "\n";  
+        }*/
     }
     
-    public double getExcessLuggageCost( int numPieces, int numAllowedPieces){
-        int excessLuggage=0;
-        double excessLuggageCost=0;
-        if(numPieces > numAllowedPieces){
-            excessLuggage = numPieces - numAllowedPieces;
-            excessLuggageCost = excessLuggage * 35;
-        }
-        return excessLuggageCost;
-    }   
+    public double getExcessLuggageCost(int numPieces, int numAllowedPieces){
+       int excessPieces = numPieces - numAllowedPieces;
+       return excessPieces * 35;
+    }
     
     public String getExcessLuggageCostByPassenger(String passportNumber){
-        String totalExcessCost="";
-        String label;
-        for(LuggageSlip s: slips){ //loop iterates through the entire ArrayList of LuggageSlip elements adding each to s for each iteration
-            if(s.hasOwner(passportNumber)){ //checks if there is any owner within the arrayList with same passport number
-                if(s.getLabel()=="")
-                   totalExcessCost="No Cost.";
-                else{
-                    label=s.getLabel();
-                    totalExcessCost=label;
-                }
-            }
-        }
-        return totalExcessCost;
+        for(LuggageSlip slip : slips)
+            if (slip.hasOwner(passportNumber))
+                if(slip.getLabel().equals(""))
+                    return "No Cost";
+                else 
+                    return slip.getLabel();
         
+        return "No Cost";
     }
     
     public String toString(){
-        String str = "";
-        String str2 = "";
-        str="LUGAGAGE MANIFEST:\n";
-        for(LuggageSlip s: slips){ //loop iterates through the entire ArrayList of LuggageSlip elements adding each to s for each iteration
-            str2+=s.toString() + "\n"; //appends each string of each element in the Array and stores it in str
-        }
-        return str + str2;
+        String s = "LUGGAGE MANIFEST:\n";
+        
+        for(LuggageSlip slip: slips)
+            s += slip.toString() + "\n";
+        
+        return s;
     }
-} 
+}
