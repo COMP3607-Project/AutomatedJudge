@@ -105,7 +105,7 @@ public class FlightTest extends TestTemplate{
             passedTestsMark--;
         mark = passed ? 2: 0;
         response = passed ? "Correct initialization of attributes.": "Incorrect initialization of attributes.";
-        ReportContent.addFeedback(new Feedback("Flight", "toString method", mark, response));
+        ReportContent.addFeedback(new Feedback("Flight", "Constructor", mark, response));
 
         assertTrue(passed);
     }
